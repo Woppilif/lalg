@@ -1,0 +1,59 @@
+﻿@model IEnumerable<BotAppData.Models.Subscription>
+
+@{
+    ViewData["Title"] = "Подписки";
+}
+
+    <h1>Подписки</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Users)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Begin)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.End)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Product)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsActive)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Users.UserId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Begin)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.End)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Product.ProductId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsActive)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.SubscriptionId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.SubscriptionId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.SubscriptionId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

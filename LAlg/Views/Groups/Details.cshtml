@@ -1,0 +1,65 @@
+﻿@model BotAppData.Models.Group
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Group</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Age)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Age.AgeId)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.GroupType)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.GroupType.GroupTypeId)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Creator)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Creator)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Product)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Product.ProductId)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.IsClosed)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.IsClosed)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.IsCommon)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.IsCommon)
+        </dd>
+        <dd class="col-sm-10">
+            <code>
+                &lt;iframe src="http://langalgorithm.ru/Pages/Group/@Model.GroupId"&gt;&lt;/iframe&gt;
+            </code>
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.GroupId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
