@@ -13,22 +13,34 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Group)
+                @Html.ActionLink("Group", "Index", new { sortOrder = ViewBag.GroupSortParm })
+
+                <!--@@Html.DisplayNameFor(model => model.Group)-->
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LessonAt)
+                @Html.ActionLink("Lesson", "Index", new { sortOrder = ViewBag.LessonSortParm })
+
+                <!--@@Html.DisplayNameFor(model => model.LessonAt)-->
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Status)
+                @Html.ActionLink("Status", "Index", new { sortOrder = ViewBag.StatusSortParm })
+
+                <!--@@Html.DisplayNameFor(model => model.Status)-->
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Url)
+                @Html.ActionLink("Url", "Index", new { sortOrder = ViewBag.UrlSortParm })
+
+                <!--@@Html.DisplayNameFor(model => model.Url)-->
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Pattern)
+                @Html.ActionLink("Pattern", "Index", new { sortOrder = ViewBag.PatternSortParm })
+
+                <!--@@Html.DisplayNameFor(model => model.Pattern)-->
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IsRepeats)
+                @Html.ActionLink("IsRepeats", "Index", new { sortOrder = ViewBag.IsRepeatsSortParm })
+
+                <!--@@Html.DisplayNameFor(model => model.IsRepeats)-->
             </th>
             <th></th>
         </tr>

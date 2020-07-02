@@ -21,10 +21,45 @@ namespace LAlg.Controllers
         }
 
         // GET: Groups
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder)
         {
             var botAppContext = _context.Groups.Include(g => g.Age).Include(g => g.GroupType).Include(g => g.Product);
-            return View(await botAppContext.ToListAsync());
+
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "Name" : "";
+            ViewBag.AgeSortParm = sortOrder == "Age" ? "" : "Age";
+            ViewBag.GroupTypeSortParm = sortOrder == "GroupType" ? "" : "GroupType";
+            ViewBag.CreatorSortParm = sortOrder == "Creator" ? "" : "Creator";
+            ViewBag.ProductSortParm = sortOrder == "Product" ? "" : "Product";
+            ViewBag.IsClosedSortParm = sortOrder == "IsClosed" ? "" : "IsClosed";
+            ViewBag.IsCommonSortParm = sortOrder == "IsCommon" ? "" : "IsCommon";
+
+            switch (sortOrder)
+            {
+                case "Name":
+                    var user = botAppContext.ToList().OrderBy(s => s.Name);
+                    return View(user.ToList());
+
+                case "Age":
+                    user = botAppContext.ToList().OrderBy(s => s.AgeId);
+                    return View(user.ToList());
+                case "GroupType":
+                    user = botAppContext.ToList().OrderBy(s => s.GroupType.Name);
+                    return View(user.ToList());
+                case "Creator":
+                    user = botAppContext.ToList().OrderBy(s => s.Creator);
+                    return View(user.ToList());
+                case "Product":
+                    user = botAppContext.ToList().OrderBy(s => s.Product.Name);
+                    return View(user.ToList());
+                case "IsClosed":
+                    user = botAppContext.ToList().OrderBy(s => s.IsClosed);
+                    return View(user.ToList());
+                case "IsCommon":
+                    user = botAppContext.ToList().OrderBy(s => s.IsCommon);
+                    return View(user.ToList());
+            }
+
+                    return View(await botAppContext.ToListAsync());
         }
 
         // GET: Groups/Details/5
