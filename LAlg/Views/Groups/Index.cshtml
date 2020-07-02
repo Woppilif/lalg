@@ -28,18 +28,24 @@
                 <!--@@Html.DisplayNameFor(model => model.GroupType)-->
             </th>
             <th>
-                @Html.ActionLink("Creator", "Index", new { sortOrder = ViewBag.CreatorTypeSortParm })
+                @Html.ActionLink("Creator", "Index", new { sortOrder = ViewBag.CreatorSortParm })
 
-                @Html.DisplayNameFor(model => model.Creator)
+                <!--@@Html.DisplayNameFor(model => model.Creator)-->
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Product)
+                @Html.ActionLink("Product", "Index", new { sortOrder = ViewBag.ProductSortParm })
+
+                <!--@@Html.DisplayNameFor(model => model.Product)-->
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IsClosed)
+                @Html.ActionLink("IsClosed", "Index", new { sortOrder = ViewBag.IsClosedSortParm })
+
+                <!--@@Html.DisplayNameFor(model => model.IsClosed)-->
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IsCommon)
+                @Html.ActionLink("IsCommon", "Index", new { sortOrder = ViewBag.IsCommonSortParm })
+
+                <!--@@Html.DisplayNameFor(model => model.IsCommon)-->
             </th>
             <th></th>
         </tr>

@@ -28,7 +28,7 @@ namespace LAlg.Controllers
             ViewBag.FirstNameSortParm = String.IsNullOrEmpty(sortOrder) ? "UserName" : "";
             ViewBag.PhoneSortParm = sortOrder == "Phone" ? "" : "Phone";
             ViewBag.CreateSortParm = sortOrder == "CreatedAt" ? "" : "CreatedAt";
-            //ViewBag.GroupSortParm = sortOrder == "Group" ? "" : "Group";
+            //ViewBag.GroupSortParm = sortOrder == "Group" ? "" : "Group";//почему то null выдает
             ViewBag.LastNameSortParm = sortOrder == "LastName" ? "" : "LastName";
             ViewBag.RegSortParm = sortOrder == "Reg" ? "" : "Reg";
             ViewBag.AgeSortParm = sortOrder == "Age" ? "" : "Age";
@@ -58,6 +58,9 @@ namespace LAlg.Controllers
 
             //ViewBag.PhoneSortParm = sortOrder == "UserName" ? "" : "UserName"; 
             //ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+
+            /*botAppContext.Where(s => s.Firstname.Contains(searchString)
+                               || s.FirstMidName.Contains(searchString));*/
 
             switch (sortOrder)
             {
@@ -95,18 +98,6 @@ namespace LAlg.Controllers
                 case "Balance":
                     user = botAppContext.ToList().OrderBy(s => s.Balance);
                     return View(user.ToList());
-
-
-
-                    /*case "Date":
-                        user = user.OrderBy(s => s.EnrollmentDate);
-                        break;
-                    case "date_desc":
-                        user = user.OrderByDescending(s => s.EnrollmentDate);
-                        break;*/
-                    //default:
-                    //user = user.OrderBy(s => s.CreatedAt);
-                    //break;
             }
             //user.ToListAs
             return View(await botAppContext.ToListAsync()); //если sortOrder пуст, то никак не сортируется
