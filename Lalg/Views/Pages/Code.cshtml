@@ -1,0 +1,25 @@
+
+@{ ViewData["Title"] = "Code";
+    Layout = "~/Views/Shared/_LayoutBlank.cshtml"; }
+
+<h1>Получите вашу скидку на занятия!</h1>
+
+<p>Введите <code>/code @ViewBag.Code</code> в одном из наших ботов и получите скидку на занятия!</p>
+
+<p><button type="button" class="btn btn-secondary" onclick="copyToClipboard()">Скопировать команду</button></p>
+
+<script>
+    function copyToClipboard() {
+        var copytext = document.createElement('input')
+        copytext.value = "/code @ViewBag.Code"
+        document.body.appendChild(copytext)
+        copytext.select()
+        document.execCommand('copy')
+        document.body.removeChild(copytext)
+    }
+
+
+</script>
+
+<p><a href="/Pages/Index/Telegram" class="btn btn-primary">Telegram бот</a></p>
+<p><a href="/Pages/Index/Vk" class="btn btn-info">VK бот</a></p>
