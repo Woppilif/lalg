@@ -20,32 +20,96 @@ namespace LAlg.Controllers
         }
 
         // GET: Users
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder)
         {
             //ViewBag.
             var botAppContext = _context.Users.Include(u => u.Age).Include(u => u.Group);
 
-            /*ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            //ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
-            var user = from s in await botAppContext.ToListAsync()
-                           select s;
-            switch (sortOrder)
+            ViewBag.FirstNameSortParm = String.IsNullOrEmpty(sortOrder) ? "UserName" : "";
+            ViewBag.PhoneSortParm = sortOrder == "Phone" ? "" : "Phone";
+            ViewBag.CreateSortParm = sortOrder == "CreatedAt" ? "" : "CreatedAt";
+            //ViewBag.GroupSortParm = sortOrder == "Group" ? "" : "Group";
+            ViewBag.LastNameSortParm = sortOrder == "LastName" ? "" : "LastName";
+            ViewBag.RegSortParm = sortOrder == "Reg" ? "" : "Reg";
+            ViewBag.AgeSortParm = sortOrder == "Age" ? "" : "Age";
+            ViewBag.IsAdminSortParm = sortOrder == "IsAdmin" ? "" : "IsAdmin";
+            ViewBag.IsTeacherSortParm = sortOrder == "IsTeacher" ? "" : "IsTeacher";
+            ViewBag.BalanceSortParm = sortOrder == "Balance" ? "" : "Balance";
+
+            /*if (String.IsNullOrEmpty(sortOrder))
             {
-                case "name_desc":
-                    user = user.OrderByDescending(s => s.LastName);
-                    break;
-                case "Date":
-                    user = user.OrderBy(s => s.EnrollmentDate);
-                    break;
-                case "date_desc":
-                    user = user.OrderByDescending(s => s.EnrollmentDate);
-                    break;
-                default:
-                    user = user.OrderBy(s => s.LastName);
-                    break;
+                ViewBag.NameSortParm = "UserName";
+            }
+            else if (sortOrder == "Phone")
+            {
+                ViewBag.PhoneSortParm = sortOrder;
+            }else if(sortOrder == "CreatedAt")
+            {
+                ViewBag.CreateSortParm = sortOrder;
+            }
+            else
+            {
+                sortOrder = "!!!";
             }*/
 
-            return View(await botAppContext.ToListAsync());
+
+            //ViewBag.PhoneSortParm = sortOrder == "Phone" ? "" : "Phone"; 
+            //ViewBag.CreateSortParm = sortOrder == "CreatedAt" ? "" : "CreatedAt"; 
+
+            //ViewBag.PhoneSortParm = sortOrder == "UserName" ? "" : "UserName"; 
+            //ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+
+            switch (sortOrder)
+            {
+                case "UserName":
+                    var user = botAppContext.ToList().OrderBy(s => s.Firstname);//.OrderBy(s => s.Firstname);
+                    return View(user.ToList());
+
+                case "Phone":
+                    user = botAppContext.ToList().OrderBy(s => s.Phone);
+                     return View(user.ToList());
+
+                case "CreatedAt":
+                    user = botAppContext.ToList().OrderBy(s => s.CreatedAt);
+                    return View(user.ToList());
+
+                case "Group":
+                    user = botAppContext.ToList().OrderBy(s => s.Group.Name);
+                    return View(user.ToList());
+
+                case "LastName":
+                    user = botAppContext.ToList().OrderBy(s => s.Lastname);
+                    return View(user.ToList());
+                case "Reg":
+                    user = botAppContext.ToList().OrderBy(s => s.Registered);
+                    return View(user.ToList());
+                case "Age":
+                    user = botAppContext.ToList().OrderBy(s => s.AgeId);//не уверен по чему надо сортировать
+                    return View(user.ToList());
+                case "IsAdmin":
+                    user = botAppContext.ToList().OrderBy(s => s.IsAdmin);
+                    return View(user.ToList());
+                case "IsTeacher":
+                    user = botAppContext.ToList().OrderBy(s => s.IsTeacher);
+                    return View(user.ToList());
+                case "Balance":
+                    user = botAppContext.ToList().OrderBy(s => s.Balance);
+                    return View(user.ToList());
+
+
+
+                    /*case "Date":
+                        user = user.OrderBy(s => s.EnrollmentDate);
+                        break;
+                    case "date_desc":
+                        user = user.OrderByDescending(s => s.EnrollmentDate);
+                        break;*/
+                    //default:
+                    //user = user.OrderBy(s => s.CreatedAt);
+                    //break;
+            }
+            //user.ToListAs
+            return View(await botAppContext.ToListAsync()); //если sortOrder пуст, то никак не сортируется
         }
 
         // GET: Users/Details/5

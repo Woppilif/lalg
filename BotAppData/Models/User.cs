@@ -9,7 +9,7 @@ namespace BotAppData.Models
         [Key]
         public long UserId { get; set; }
         public DateTime CreatedAt { get; set; }
-        public Guid? GroupId { get; set; }
+        public Guid? GroupId { get; set; }//это вроде бы есть в классе Group
         public Group Group { get; set; }
         public int Platform { get; set; }
         [Display(Name = "Имя")]
