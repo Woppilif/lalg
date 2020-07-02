@@ -13,15 +13,23 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                @Html.ActionLink("Название", "Index", new { sortOrder = ViewBag.NameSortParm })
+
+                <!--@@Html.DisplayNameFor(model => model.Name)-->
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Age)
+                @Html.ActionLink("Age", "Index", new { sortOrder = ViewBag.AgeSortParm })
+
+                <!--@@Html.DisplayNameFor(model => model.Age)-->
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.GroupType)
+                @Html.ActionLink("GroupType", "Index", new { sortOrder = ViewBag.GroupTypeSortParm })
+
+                <!--@@Html.DisplayNameFor(model => model.GroupType)-->
             </th>
             <th>
+                @Html.ActionLink("Creator", "Index", new { sortOrder = ViewBag.CreatorTypeSortParm })
+
                 @Html.DisplayNameFor(model => model.Creator)
             </th>
             <th>
