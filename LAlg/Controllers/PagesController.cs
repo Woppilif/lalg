@@ -50,6 +50,7 @@ namespace LAlg.Controllers
             return View();
         }
 
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("UserId,CreatedAt,GroupId,Platform,Firstname,Lastname,Phone,Registered,AgeId,IsAdmin,IsTeacher")] User user)
@@ -84,5 +85,25 @@ namespace LAlg.Controllers
             ViewBag.Code = code;
             return View();
         }
+
+
+    }
+
+
+
+}
+
+
+namespace MvcMovie.Controllers
+{
+    public class Vebinar1Controller : Controller
+    {
+
+        public IActionResult Index()
+        {
+            return View("~/Views/Pages/Vebinar1.cshtml");
+        }
+
+
     }
 }
