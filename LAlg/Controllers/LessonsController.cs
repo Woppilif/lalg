@@ -21,10 +21,41 @@ namespace LAlg.Controllers
         }
 
         // GET: Lessons
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder)
         {
             var botAppContext = _context.Lessons.Include(l => l.Group).Include(l => l.Pattern);
-            return View(await botAppContext.ToListAsync());
+
+            ViewBag.GroupSortParm = String.IsNullOrEmpty(sortOrder) ? "Group" : "";
+            ViewBag.LessonSortParm = sortOrder == "Lesson" ? "" : "Lesson";
+            ViewBag.StatusSortParm = sortOrder == "Status" ? "" : "Status";
+            ViewBag.UrlSortParm = sortOrder == "Url" ? "" : "Url";
+            ViewBag.PatternSortParm = sortOrder == "Pattern" ? "" : "Pattern";
+            ViewBag.IsRepeatsSortParm = sortOrder == "IsRepeats" ? "" : "IsRepeats";
+
+            switch (sortOrder)
+            {
+                case "Group":
+                    var user = botAppContext.ToList().OrderBy(s => s.Group.Name);
+                    return View(user.ToList());
+
+                case "Lesson":
+                    user = botAppContext.ToList().OrderBy(s => s.LessonAt);
+                    return View(user.ToList());
+                case "Status":
+                    user = botAppContext.ToList().OrderBy(s => s.Status);
+                    return View(user.ToList());
+                case "Url":
+                    user = botAppContext.ToList().OrderBy(s => s.Url);
+                    return View(user.ToList());
+                case "Pattern":
+                    user = botAppContext.ToList().OrderBy(s => s.Pattern.Name);
+                    return View(user.ToList());
+                case "IsRepeats":
+                    user = botAppContext.ToList().OrderBy(s => s.IsRepeats);
+                    return View(user.ToList());
+            }
+
+                    return View(await botAppContext.ToListAsync());
         }
 
         // GET: Lessons/Details/5
