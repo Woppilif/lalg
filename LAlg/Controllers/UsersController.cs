@@ -1,10 +1,13 @@
 ﻿using BotAppData;
 using BotAppData.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace LAlg.Controllers
@@ -13,16 +16,21 @@ namespace LAlg.Controllers
     public class UsersController : Controller
     {
         private readonly BotAppContext _context;
-
-        public UsersController(BotAppContext context)
+        private readonly UserManager<IdentityUser> _userManager;
+        public UsersController(BotAppContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Users
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(Guid? id)
         {
-            var botAppContext = _context.Users.Include(u => u.Age).Include(u => u.Group);
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var botAppContext = _context.Users.Where(u => u.GroupId == id).Include(u => u.Age).Include(u => u.Group);
             return View(await botAppContext.ToListAsync());
         }
 

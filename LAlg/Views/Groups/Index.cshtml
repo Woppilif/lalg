@@ -61,9 +61,11 @@
                 @Html.DisplayFor(modelItem => item.IsCommon)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.GroupId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.GroupId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.GroupId">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.GroupId">Редактировать</a> |
+                <a asp-action="Details" asp-route-id="@item.GroupId">Детали</a> |
+                <a asp-action="Delete" asp-route-id="@item.GroupId">Удалить</a> |
+                <a asp-controller="Lessons" asp-action="Index" asp-route-id="@item.GroupId">Занятия</a> |
+                <a asp-controller="Users" asp-action="Index" asp-route-id="@item.GroupId">Ученики</a> |
             </td>
         </tr>
 }

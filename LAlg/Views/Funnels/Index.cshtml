@@ -1,0 +1,61 @@
+﻿@model IEnumerable<BotAppData.Models.Funnel>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PageTemplate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BonusAmount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsActive)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatorId)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PageTemplate.PageTemplateId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BonusAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsActive)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatorId)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.FunnelId">Редактировать</a> |
+                <a asp-action="Details" asp-route-id="@item.FunnelId">Детали</a> |
+                <a asp-action="Delete" asp-route-id="@item.FunnelId">Удалить</a> |
+                <a asp-controller="FunnelLevels" asp-action="Index" asp-route-id="@item.FunnelId">Шаги</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

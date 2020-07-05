@@ -19,6 +19,10 @@ namespace BotAppData
         public DbSet<ProductType> ProductTypes { get; set; }
         public DbSet<LessonLog> LessonLogs { get; set; }
         public DbSet<Referal> Referals { get; set; }
+        public DbSet<Funnel> Funnels { get; set; }
+        public DbSet<FunnelLevel> FunnelLevels { get; set; }
+        public DbSet<PageTemplate> PageTemplates { get; set; }
+
         public BotAppContext(DbContextOptions<BotAppContext> options) : base(options)
         {
         }
@@ -55,6 +59,12 @@ namespace BotAppData
             modelBuilder.Entity<Subscription>().HasOne(x => x.Product);
 
             modelBuilder.Entity<Referal>().HasOne(x => x.Users);
+
+            modelBuilder.Entity<Funnel>().HasOne(x => x.PageTemplate);
+            modelBuilder.Entity<Funnel>().HasMany(x => x.FunnelLevels);
+
+            modelBuilder.Entity<FunnelLevel>().HasOne(x => x.Group);
+            modelBuilder.Entity<FunnelLevel>().HasOne(x => x.Product);
         }
     }
 }

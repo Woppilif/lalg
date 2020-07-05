@@ -45,19 +45,73 @@ namespace BotAppData.Migrations
                     b.ToTable("Ages");
                 });
 
+            modelBuilder.Entity("BotAppData.Models.Funnel", b =>
+                {
+                    b.Property<Guid>("FunnelId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("BonusAmount")
+                        .HasColumnType("numeric");
+
+                    b.Property<Guid>("CreatorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<Guid?>("PageTemplateId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("FunnelId");
+
+                    b.HasIndex("PageTemplateId");
+
+                    b.ToTable("Funnels");
+                });
+
+            modelBuilder.Entity("BotAppData.Models.FunnelLevel", b =>
+                {
+                    b.Property<Guid>("FunnelLevelId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("FunnelId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("GroupId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("ProductId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("FunnelLevelId");
+
+                    b.HasIndex("FunnelId");
+
+                    b.HasIndex("GroupId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("FunnelLevels");
+                });
+
             modelBuilder.Entity("BotAppData.Models.Group", b =>
                 {
                     b.Property<Guid>("GroupId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<int>("AgeId")
+                    b.Property<int?>("AgeId")
                         .HasColumnType("integer");
 
                     b.Property<Guid>("Creator")
                         .HasColumnType("uuid");
 
-                    b.Property<int>("GroupTypeId")
+                    b.Property<int?>("GroupTypeId")
                         .HasColumnType("integer");
 
                     b.Property<bool>("IsClosed")
@@ -69,7 +123,7 @@ namespace BotAppData.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
-                    b.Property<Guid>("ProductId")
+                    b.Property<Guid?>("ProductId")
                         .HasColumnType("uuid");
 
                     b.HasKey("GroupId");
@@ -177,6 +231,23 @@ namespace BotAppData.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("LinkSpyers");
+                });
+
+            modelBuilder.Entity("BotAppData.Models.PageTemplate", b =>
+                {
+                    b.Property<Guid>("PageTemplateId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("text");
+
+                    b.HasKey("PageTemplateId");
+
+                    b.ToTable("PageTemplates");
                 });
 
             modelBuilder.Entity("BotAppData.Models.Pattern", b =>
@@ -355,7 +426,7 @@ namespace BotAppData.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 
-                    b.Property<Guid>("ProductId")
+                    b.Property<Guid?>("ProductId")
                         .HasColumnType("uuid");
 
                     b.Property<long>("UserId")
@@ -426,25 +497,45 @@ namespace BotAppData.Migrations
                         .HasForeignKey("ProductId");
                 });
 
-            modelBuilder.Entity("BotAppData.Models.Group", b =>
+            modelBuilder.Entity("BotAppData.Models.Funnel", b =>
                 {
-                    b.HasOne("BotAppData.Models.Age", "Age")
-                        .WithMany("Groups")
-                        .HasForeignKey("AgeId")
+                    b.HasOne("BotAppData.Models.PageTemplate", "PageTemplate")
+                        .WithMany()
+                        .HasForeignKey("PageTemplateId");
+                });
+
+            modelBuilder.Entity("BotAppData.Models.FunnelLevel", b =>
+                {
+                    b.HasOne("BotAppData.Models.Funnel", "Funnel")
+                        .WithMany("FunnelLevels")
+                        .HasForeignKey("FunnelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BotAppData.Models.GroupType", "GroupType")
+                    b.HasOne("BotAppData.Models.Group", "Group")
                         .WithMany()
-                        .HasForeignKey("GroupTypeId")
+                        .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("BotAppData.Models.Product", "Product")
                         .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ProductId");
+                });
+
+            modelBuilder.Entity("BotAppData.Models.Group", b =>
+                {
+                    b.HasOne("BotAppData.Models.Age", "Age")
+                        .WithMany("Groups")
+                        .HasForeignKey("AgeId");
+
+                    b.HasOne("BotAppData.Models.GroupType", "GroupType")
+                        .WithMany()
+                        .HasForeignKey("GroupTypeId");
+
+                    b.HasOne("BotAppData.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId");
                 });
 
             modelBuilder.Entity("BotAppData.Models.Lesson", b =>
@@ -543,9 +634,7 @@ namespace BotAppData.Migrations
                 {
                     b.HasOne("BotAppData.Models.Product", "Product")
                         .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ProductId");
 
                     b.HasOne("BotAppData.Models.User", "Users")
                         .WithMany()
