@@ -86,3 +86,18 @@ namespace LAlg.Controllers
         }
     }
 }
+
+
+namespace MvcMovie.Controllers
+{
+    public class Vebinar1Controller : Controller
+    {
+
+        public IActionResult Index()
+        {
+            return View("~/Views/Pages/Vebinar1.cshtml");
+        }
+
+
+    }
+}
