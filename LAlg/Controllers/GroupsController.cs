@@ -21,7 +21,7 @@ namespace LAlg.Controllers
         }
 
         // GET: Groups
-        public async Task<IActionResult> Index(string sortOrder)
+        public async Task<IActionResult> Index(string sortOrder, string search)
         {
             var botAppContext = _context.Groups.Include(g => g.Age).Include(g => g.GroupType).Include(g => g.Product);
 
@@ -33,30 +33,44 @@ namespace LAlg.Controllers
             ViewBag.IsClosedSortParm = sortOrder == "IsClosed" ? "" : "IsClosed";
             ViewBag.IsCommonSortParm = sortOrder == "IsCommon" ? "" : "IsCommon";
 
+            var user = from s in botAppContext
+                       select s;
+
+            //Поиск строки
+            if (!String.IsNullOrEmpty(search))
+            {
+                user = botAppContext.Where(s => s.Name.ToUpper().Contains(search.ToUpper())
+                                 || s.Age.Name.ToUpper().Contains(search.ToUpper())
+                                 || s.GroupType.Name.ToUpper().Contains(search.ToUpper())
+                                 || s.Product.Name.ToUpper().Contains(search.ToUpper()));
+
+                return View(user.ToList());
+            }
+
             switch (sortOrder)
             {
                 case "Name":
-                    var user = botAppContext.ToList().OrderBy(s => s.Name);
-                    return View(user.ToList());
+                    //var user = botAppContext.ToList().OrderBy(s => s.Name);
+                    return View(user.ToList().OrderBy(s => s.Name));
 
                 case "Age":
-                    user = botAppContext.ToList().OrderBy(s => s.AgeId);
-                    return View(user.ToList());
+                    //user = botAppContext.ToList().OrderBy(s => s.AgeId);
+                    return View(user.ToList().OrderBy(s => s.AgeId));
                 case "GroupType":
-                    user = botAppContext.ToList().OrderBy(s => s.GroupType.Name);
-                    return View(user.ToList());
+                    //user = botAppContext.ToList().OrderBy(s => s.GroupType.Name);
+                    return View(user.ToList().OrderBy(s => s.GroupType.Name));
                 case "Creator":
-                    user = botAppContext.ToList().OrderBy(s => s.Creator);
-                    return View(user.ToList());
+                    //user = botAppContext.ToList().OrderBy(s => s.Creator);
+                    return View(user.ToList().OrderBy(s => s.Creator));
                 case "Product":
-                    user = botAppContext.ToList().OrderBy(s => s.Product.Name);
-                    return View(user.ToList());
+                    //user = botAppContext.ToList().OrderBy(s => s.Product.Name);
+                    return View(user.ToList().OrderBy(s => s.Product.Name));
                 case "IsClosed":
-                    user = botAppContext.ToList().OrderBy(s => s.IsClosed);
-                    return View(user.ToList());
+                    //user = botAppContext.ToList().OrderBy(s => s.IsClosed);
+                    return View(user.ToList().OrderBy(s => s.IsClosed));
                 case "IsCommon":
-                    user = botAppContext.ToList().OrderBy(s => s.IsCommon);
-                    return View(user.ToList());
+                    //user = botAppContext.ToList().OrderBy(s => s.IsCommon);
+                    return View(user.ToList().OrderBy(s => s.IsCommon));
             }
 
                     return View(await botAppContext.ToListAsync());

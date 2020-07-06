@@ -21,9 +21,52 @@ namespace LAlg.Controllers
         }
 
         // GET: Payments
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, string search)
         {
             var botAppContext = _context.Payments.Include(p => p.Subscription).Include(p => p.Users);
+
+            ViewBag.FirstNameSortParm = String.IsNullOrEmpty(sortOrder) ? "Name" : "";
+            ViewBag.CreatedAtgSortParm = sortOrder == "CreatedAt" ? "" : "CreatedAt";
+            ViewBag.CapturedAtSortParm = sortOrder == "CapturedAt" ? "" : "CapturedAt";
+            ViewBag.IsPayedSortParm = sortOrder == "IsPayed" ? "" : "IsPayed";
+            ViewBag.SubscriptionSortParm = sortOrder == "Subscription" ? "" : "Subscription";
+            ViewBag.PaymentIdSortParm = sortOrder == "PaymentId" ? "" : "PaymentId";
+            ViewBag.IsExtendsSortParm = sortOrder == "IsExtends" ? "" : "IsExtends";
+            ViewBag.AmountSortParm = sortOrder == "Amount" ? "" : "Amount";
+
+            var user = from s in botAppContext
+                       select s;
+
+            if (!String.IsNullOrEmpty(search))
+            {
+                user = botAppContext.Where(s => s.Users.Firstname.ToUpper().Contains(search.ToUpper())
+                                 || s.Amount.ToString().Contains(search.ToUpper())
+                                 || s.CreatedAt.ToString().Contains(search)
+                                 || s.Subscription.SubscriptionId.ToString().Contains(search)
+                                 || s.CapturedAt.ToString().Contains(search));
+
+                return View(user.ToList());
+            }
+
+            switch (sortOrder)
+            {
+                case "Name":
+                    return View(user.ToList().OrderBy(s => s.Users.Firstname));
+                case "CreatedAt":
+                    return View(user.ToList().OrderBy(s => s.CreatedAt));
+                case "CapturedAt":
+                    return View(user.ToList().OrderBy(s => s.CapturedAt));
+                case "IsPayed":
+                    return View(user.ToList().OrderBy(s => s.IsPayed));
+                case "Subscription":
+                    return View(user.ToList().OrderBy(s => s.Subscription.SubscriptionId));
+                case "PaymentId":
+                    return View(user.ToList().OrderBy(s => s.PaymentId));
+                case "IsExtends":
+                    return View(user.ToList().OrderBy(s => s.IsExtends));
+                case "Amount":
+                    return View(user.ToList().OrderBy(s => s.Amount));
+            }
             return View(await botAppContext.ToListAsync());
         }
 

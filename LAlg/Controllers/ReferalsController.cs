@@ -20,9 +20,41 @@ namespace LAlg.Controllers
         }
 
         // GET: Referals
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, string search)
         {
             var botAppContext = _context.Referals.Include(r => r.Users);
+
+            ViewBag.FirstNameSortParm = String.IsNullOrEmpty(sortOrder) ? "Name" : "";
+            ViewBag.CodeSortParm = sortOrder == "Code" ? "" : "Code";
+            ViewBag.IsActiveSortParm = sortOrder == "IsActive" ? "" : "IsActive";
+            ViewBag.IsCommonSortParm = sortOrder == "IsCommon" ? "" : "IsCommon";
+            ViewBag.AmountSortParm = sortOrder == "Amount" ? "" : "Amount";
+
+            var user = from s in botAppContext
+                       select s;
+
+            if (!String.IsNullOrEmpty(search))
+            {
+                user = botAppContext.Where(s => s.Users.Firstname.ToUpper().Contains(search.ToUpper())
+                                 || s.Code.ToUpper().Contains(search.ToUpper())
+                                 || s.Amount.ToString().Contains(search.ToUpper()));
+
+                return View(user.ToList());
+            }
+            switch (sortOrder)
+            {
+                case "Name":
+                    return View(user.ToList().OrderBy(s => s.Users.Firstname));
+                case "Code":
+                    return View(user.ToList().OrderBy(s => s.Code));
+                case "IsActive":
+                    return View(user.ToList().OrderBy(s => s.IsActive));
+                case "IsCommon":
+                    return View(user.ToList().OrderBy(s => s.IsCommon));
+                case "Amount":
+                    return View(user.ToList().OrderBy(s => s.Amount));
+            }
+
             return View(await botAppContext.ToListAsync());
         }
 

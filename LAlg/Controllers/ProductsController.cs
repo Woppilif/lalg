@@ -21,9 +21,49 @@ namespace LAlg.Controllers
         }
 
         // GET: Products
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, string search)
         {
             var botAppContext = _context.Products.Include(p => p.ProductType);
+
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "Name" : "";
+            ViewBag.PriceSortParm = sortOrder == "Price" ? "" : "Price";
+            //ViewBag.AgeIdSortParm = sortOrder == "AgeId" ? "" : "AgeId";
+            ViewBag.ProductTypeSortParm = sortOrder == "ProductType" ? "" : "ProductType";
+            ViewBag.FreeTimesSortParm = sortOrder == "FreeTimes" ? "" : "FreeTimes";
+
+            var user = from s in botAppContext
+                       select s;
+
+            if (!String.IsNullOrEmpty(search))
+            {
+                user = user.Where(s => s.Name.ToUpper().Contains(search.ToUpper())
+                                 || s.Price.ToString().Contains(search)
+                                 || s.ProductType.Name.ToUpper().Contains(search.ToUpper())
+                                 || s.AgeId.ToString().ToUpper().Contains(search.ToUpper())
+                                 || s.FreeTimes.ToString().Contains(search));
+
+                return View(user.ToList());
+            }
+
+            switch (sortOrder)
+            {
+                case "Name":
+                    //var user = botAppContext.ToList().OrderBy(s => s.Group.Name);
+                    return View(user.ToList().OrderBy(s => s.Name));
+                case "Price":
+                    //user = botAppContext.ToList().OrderBy(s => s.LessonAt);
+                    return View(user.ToList().OrderBy(s => s.Price));
+                /*case "AgeId":
+                    //user = botAppContext.ToList().OrderBy(s => s.LessonAt);
+                    return View(user.ToList().OrderBy(s => s.AgeId.));*/
+                case "ProductType":
+                    //user = botAppContext.ToList().OrderBy(s => s.LessonAt);
+                    return View(user.ToList().OrderBy(s => s.ProductType.Name));
+                case "FreeTimes":
+                    //user = botAppContext.ToList().OrderBy(s => s.LessonAt);
+                    return View(user.ToList().OrderBy(s => s.FreeTimes));
+            }
+
             return View(await botAppContext.ToListAsync());
         }
 

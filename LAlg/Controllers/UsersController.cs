@@ -29,6 +29,7 @@ namespace LAlg.Controllers
             ViewBag.PhoneSortParm = sortOrder == "Phone" ? "" : "Phone";
             ViewBag.CreateSortParm = sortOrder == "CreatedAt" ? "" : "CreatedAt";
             //ViewBag.GroupSortParm = sortOrder == "Group" ? "" : "Group";//почему то null выдает
+            ViewBag.PlatformSortParam = sortOrder == "Platform" ? "" : "Platform";
             ViewBag.LastNameSortParm = sortOrder == "LastName" ? "" : "LastName";
             ViewBag.RegSortParm = sortOrder == "Reg" ? "" : "Reg";
             ViewBag.AgeSortParm = sortOrder == "Age" ? "" : "Age";
@@ -41,14 +42,17 @@ namespace LAlg.Controllers
             var user = from s in botAppContext
                            select s;
             
-            
             //IQueryable<User> searchAnswer = null;
             if (!String.IsNullOrEmpty(search))
             {
-                var searchAnswer = botAppContext.Where(s => s.Firstname.Contains(search)
-                                 || s.Group.Name.Contains(search)
-                                 || s.Lastname.Contains(search));
-                return View(searchAnswer.ToList());
+                user = user.Where(s => s.Firstname.ToUpper().Contains(search.ToUpper())
+                                 || s.Group.Name.ToUpper().Contains(search.ToUpper())
+                                 || s.Lastname.ToUpper().Contains(search.ToUpper())
+                                 || s.Phone.Contains(search)
+                                 || s.Age.Name.ToUpper().Contains(search.ToUpper())
+                                 || s.CreatedAt.ToString().Contains(search));//почему то не ищит строку
+
+                return View(user.ToList());
             }
             
             switch (sortOrder)
@@ -70,6 +74,10 @@ namespace LAlg.Controllers
                 case "Group":
                     //user = botAppContext.ToList().OrderBy(s => s.Group.Name);
                     return View(user.ToList().OrderBy(s => s.Group.Name));
+                
+                case "Platform":
+                    //user = botAppContext.ToList().OrderBy(s => s.Group.Name);
+                    return View(user.ToList().OrderBy(s => s.Platform));
 
                 case "LastName":
                     //user = botAppContext.ToList().OrderBy(s => s.Lastname);

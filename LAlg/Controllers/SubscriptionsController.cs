@@ -21,9 +21,41 @@ namespace LAlg.Controllers
         }
 
         // GET: Subscriptions
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, string search)
         {
             var botAppContext = _context.Subscriptions.Include(s => s.Product).Include(s => s.Users);
+
+            ViewBag.FirstNameSortParm = String.IsNullOrEmpty(sortOrder) ? "Name" : "";
+            ViewBag.BeginSortParm = sortOrder == "Begin" ? "" : "Begin";
+            ViewBag.EndSortParm = sortOrder == "End" ? "" : "End";
+            ViewBag.ProductSortParm = sortOrder == "Product" ? "" : "Product";
+            ViewBag.IsActiveSortParm = sortOrder == "IsActive" ? "" : "IsActive";
+
+            var user = from s in botAppContext
+                       select s;
+
+            if (!String.IsNullOrEmpty(search))
+            {
+                user = botAppContext.Where(s => s.Users.Firstname.ToUpper().Contains(search.ToUpper())
+                                 || s.Begin.ToString().Contains(search.ToUpper())
+                                 || s.End.ToString().Contains(search)
+                                 || s.Product.Name.ToUpper().Contains(search.ToUpper()));
+
+                return View(user.ToList());
+            }
+            switch (sortOrder)
+            {
+                case "Name":
+                    return View(user.ToList().OrderBy(s => s.Users.Firstname));
+                case "Begin":
+                    return View(user.ToList().OrderBy(s => s.Begin));
+                case "End":
+                    return View(user.ToList().OrderBy(s => s.End));
+                case "Product":
+                    return View(user.ToList().OrderBy(s => s.Product.Name));
+                case "IsActive":
+                    return View(user.ToList().OrderBy(s => s.IsActive));            
+            }
             return View(await botAppContext.ToListAsync());
         }
 

@@ -1,60 +1,75 @@
 ﻿@model IEnumerable<BotAppData.Models.Referal>
 
-@{
-    ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+@{ ViewData["Title"] = "Index";
+                Layout = "~/Views/Shared/_Layout.cshtml"; }
 
 <h1>Index</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+@using (Html.BeginForm())
+{
+    <p>
+        Поиск: @Html.TextBox("search")
+        <input type="submit" value="search me" />
+    </p>
+}
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Users)
+                @Html.ActionLink("Имя", "Index", new { sortOrder = ViewBag.FirstNameSortParm })
+
+                <!--@@Html.DisplayNameFor(model => model.Users)-->
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Code)
+                @Html.ActionLink("Code", "Index", new { sortOrder = ViewBag.CodeSortParm })
+
+                <!--@@Html.DisplayNameFor(model => model.Code)-->
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IsActive)
+                @Html.ActionLink("IsActive", "Index", new { sortOrder = ViewBag.IsActiveSortParm })
+
+                <!--@@Html.DisplayNameFor(model => model.IsActive)-->
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IsCommon)
+                @Html.ActionLink("IsCommon", "Index", new { sortOrder = ViewBag.IsCommonSortParm })
+
+                <!--@@Html.DisplayNameFor(model => model.IsCommon)-->
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Amount)
+                @Html.ActionLink("Amount", "Index", new { sortOrder = ViewBag.AmountSortParm })
+
+                <!--@@Html.DisplayNameFor(model => model.Amount)-->
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Users.UserId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Code)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsActive)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsCommon)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Amount)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ReferalId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ReferalId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ReferalId">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Users.Firstname)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Code)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.IsActive)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.IsCommon)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Amount)
+    </td>
+    <td>
+        <a asp-action="Edit" asp-route-id="@item.ReferalId">Edit</a> |
+        <a asp-action="Details" asp-route-id="@item.ReferalId">Details</a> |
+        <a asp-action="Delete" asp-route-id="@item.ReferalId">Delete</a>
+    </td>
+</tr>}
     </tbody>
 </table>

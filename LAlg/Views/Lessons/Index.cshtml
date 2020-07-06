@@ -4,11 +4,20 @@
     ViewData["Title"] = "Занятия";
 }
 
-    <h1>Занятия</h1>
+<h1>Занятия</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
+@using (Html.BeginForm())
+{
+    <p>
+        Поиск: @Html.TextBox("search")
+        <input type="submit" value="search me" />
+    </p>
+}
+
 <table class="table">
     <thead>
         <tr>
@@ -46,32 +55,33 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Group.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LessonAt)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Url)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Pattern.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsRepeats)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.LessonId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.LessonId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.LessonId">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Group.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LessonAt)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Url)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Pattern.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsRepeats)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.LessonId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.LessonId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.LessonId">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

@@ -21,7 +21,7 @@ namespace LAlg.Controllers
         }
 
         // GET: Lessons
-        public async Task<IActionResult> Index(string sortOrder)
+        public async Task<IActionResult> Index(string sortOrder, string search)
         {
             var botAppContext = _context.Lessons.Include(l => l.Group).Include(l => l.Pattern);
 
@@ -32,27 +32,40 @@ namespace LAlg.Controllers
             ViewBag.PatternSortParm = sortOrder == "Pattern" ? "" : "Pattern";
             ViewBag.IsRepeatsSortParm = sortOrder == "IsRepeats" ? "" : "IsRepeats";
 
+            var user = from s in botAppContext
+                       select s;
+
+            //IQueryable<User> searchAnswer = null;
+            if (!String.IsNullOrEmpty(search))
+            {
+                user = botAppContext.Where(s => s.Group.Name.ToUpper().Contains(search.ToUpper())
+                                 || s.LessonAt.ToString().Contains(search)
+                                 || s.Pattern.Name.ToUpper().Contains(search.ToUpper()));
+
+                return View(user.ToList());
+            }
+
             switch (sortOrder)
             {
                 case "Group":
-                    var user = botAppContext.ToList().OrderBy(s => s.Group.Name);
-                    return View(user.ToList());
+                    //var user = botAppContext.ToList().OrderBy(s => s.Group.Name);
+                    return View(user.ToList().OrderBy(s => s.Group.Name));
 
                 case "Lesson":
-                    user = botAppContext.ToList().OrderBy(s => s.LessonAt);
-                    return View(user.ToList());
+                    //user = botAppContext.ToList().OrderBy(s => s.LessonAt);
+                    return View(user.ToList().OrderBy(s => s.LessonAt));
                 case "Status":
-                    user = botAppContext.ToList().OrderBy(s => s.Status);
-                    return View(user.ToList());
+                    //user = botAppContext.ToList().OrderBy(s => s.Status);
+                    return View(user.ToList().OrderBy(s => s.Status));
                 case "Url":
-                    user = botAppContext.ToList().OrderBy(s => s.Url);
-                    return View(user.ToList());
+                    //user = botAppContext.ToList().OrderBy(s => s.Url);
+                    return View(user.ToList().OrderBy(s => s.Url));
                 case "Pattern":
-                    user = botAppContext.ToList().OrderBy(s => s.Pattern.Name);
-                    return View(user.ToList());
+                    //user = botAppContext.ToList().OrderBy(s => s.Pattern.Name);
+                    return View(user.ToList().OrderBy(s => s.Pattern.Name));
                 case "IsRepeats":
-                    user = botAppContext.ToList().OrderBy(s => s.IsRepeats);
-                    return View(user.ToList());
+                    //user = botAppContext.ToList().OrderBy(s => s.IsRepeats);
+                    return View(user.ToList().OrderBy(s => s.IsRepeats));
             }
 
                     return View(await botAppContext.ToListAsync());
