@@ -27,6 +27,8 @@ namespace LAlg.Controllers
             {
                 return NotFound();
             }
+
+            ViewData["FunnelId"] = id;
             var botAppContext = _context.FunnelLevels.Where(f => f.FunnelId == id).Include(f => f.Funnel).Include(f => f.Group).Include(f => f.Product);
             return View(await botAppContext.ToListAsync());
         }
@@ -53,10 +55,14 @@ namespace LAlg.Controllers
         }
 
         // GET: FunnelLevels/Create
-        public IActionResult Create()
+        public IActionResult Create(Guid? id)
         {
-            ViewData["FunnelId"] = new SelectList(_context.Funnels, "FunnelId", "FunnelId");
-            //ViewData["GroupId"] = new SelectList(_context.Groups, "GroupId", "GroupId");
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            ViewData["FunnelId"] = id;
             ViewData["ProductId"] = new SelectList(_context.Products, "ProductId", "ProductId");
             return View();
         }
@@ -66,19 +72,19 @@ namespace LAlg.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("FunnelLevelId,FunnelId,GroupId,ProductId")] FunnelLevel funnelLevel)
+        public async Task<IActionResult> Create([Bind("FunnelLevelId,FunnelId,GroupId,ProductId,FunnelId")] FunnelLevel funnelLevel)
         {
             if (ModelState.IsValid)
             {
                 var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-                funnelLevel.Group = new Group { Name = $"Группа от {DateTime.Now.ToString("dd-MM")}", IsCommon = true, Creator = userId };
+                var product = await _context.Products.FindAsync(funnelLevel.ProductId);
+                funnelLevel.Group = new Group { Name = $"Группа {product.Name}", IsCommon = true, Creator = userId, ProductId = funnelLevel.ProductId };
                 funnelLevel.FunnelLevelId = Guid.NewGuid();
                 _context.Add(funnelLevel);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { id = funnelLevel.FunnelId });
             }
-            ViewData["FunnelId"] = new SelectList(_context.Funnels, "FunnelId", "FunnelId", funnelLevel.FunnelId);
-            //ViewData["GroupId"] = new SelectList(_context.Groups, "GroupId", "GroupId", funnelLevel.GroupId);
+            ViewData["FunnelId"] = funnelLevel.FunnelId;
             ViewData["ProductId"] = new SelectList(_context.Products, "ProductId", "ProductId", funnelLevel.ProductId);
             return View(funnelLevel);
         }
@@ -96,8 +102,6 @@ namespace LAlg.Controllers
             {
                 return NotFound();
             }
-            ViewData["FunnelId"] = new SelectList(_context.Funnels, "FunnelId", "FunnelId", funnelLevel.FunnelId);
-            ViewData["GroupId"] = new SelectList(_context.Groups, "GroupId", "GroupId", funnelLevel.GroupId);
             ViewData["ProductId"] = new SelectList(_context.Products, "ProductId", "ProductId", funnelLevel.ProductId);
             return View(funnelLevel);
         }
@@ -134,8 +138,6 @@ namespace LAlg.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["FunnelId"] = new SelectList(_context.Funnels, "FunnelId", "FunnelId", funnelLevel.FunnelId);
-            ViewData["GroupId"] = new SelectList(_context.Groups, "GroupId", "GroupId", funnelLevel.GroupId);
             ViewData["ProductId"] = new SelectList(_context.Products, "ProductId", "ProductId", funnelLevel.ProductId);
             return View(funnelLevel);
         }
@@ -169,7 +171,7 @@ namespace LAlg.Controllers
             var funnelLevel = await _context.FunnelLevels.FindAsync(id);
             _context.FunnelLevels.Remove(funnelLevel);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), new { id = funnelLevel.FunnelId });
         }
 
         private bool FunnelLevelExists(Guid id)

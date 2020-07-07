@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BotAppData;
 using BotAppData.Models;
+using System.Security.Claims;
 
 namespace LAlg.Controllers
 {
@@ -57,11 +58,12 @@ namespace LAlg.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("FunnelId,Name,PageTemplateId,BonusAmount,IsActive,CreatorId")] Funnel funnel)
+        public async Task<IActionResult> Create([Bind("FunnelId,Name,PageTemplateId,BonusAmount,IsActive")] Funnel funnel)
         {
             if (ModelState.IsValid)
             {
                 funnel.FunnelId = Guid.NewGuid();
+                funnel.CreatorId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
                 _context.Add(funnel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
