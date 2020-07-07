@@ -40,7 +40,8 @@
     <script src="~/js/tilda-forms-1.0.min.js" charset="utf-8"></script>
     <script src="~/js/tilda-zero-forms-1.0.min.js" charset="utf-8"></script>
     <!-- Facebook Pixel Code -->
-    <script>!function (f, b, e, v, n, t, s) {
+    <script>
+    !function (f, b, e, v, n, t, s) {
             if (f.fbq)
                 return;
             n = f.fbq = function () {
@@ -67,7 +68,15 @@
     <!-- End Facebook Pixel Code -->
     <script type="text/javascript">window.dataLayer = window.dataLayer || [];</script>
     <!-- Facebook Pixel Code -->
-    <script>!function (f, b, e, v, n, t, s) {
+
+    <script>
+        $(document).ready(function () {
+            t396_init('202763041');
+        });
+    </script>
+
+    <script>
+    !function (f, b, e, v, n, t, s) {
             if (f.fbq)
                 return;
             n = f.fbq = function () {
@@ -90,7 +99,8 @@
         fbq('init', '2661144310765814');
         fbq('track', 'PageView');</script>
     <!-- End Facebook Pixel Code -->
-    <script type="text/javascript">if ((/bot|google|yandex|baidu|bing|msn|duckduckbot|teoma|slurp|crawler|spider|robot|crawling|facebook/i.test(navigator.userAgent)) === false && typeof (sessionStorage) != 'undefined' && sessionStorage.getItem('visited') !== 'y') {
+    <script type="text/javascript">
+    if ((/bot|google|yandex|baidu|bing|msn|duckduckbot|teoma|slurp|crawler|spider|robot|crawling|facebook/i.test(navigator.userAgent)) === false && typeof (sessionStorage) != 'undefined' && sessionStorage.getItem('visited') !== 'y') {
             var style = document.createElement('style');
             style.type = 'text/css';
             style.innerHTML = '@@media screen and (min-width: 980px) {.t-records {opacity: 0;}.t-records_animated {-webkit-transition: opacity ease-in-out .2s;-moz-transition: opacity ease-in-out .2s;-o-transition: opacity ease-in-out .2s;transition: opacity ease-in-out .2s;}.t-records.t-records_visible {opacity: 1;}}';
@@ -107,6 +117,30 @@
 
 <body class="t-body" style="margin:0;">
     @RenderBody()
+    <script>
+        $(document).ready(function () {
+            jQuery.cachedScript = function (url) {
+                var options = {
+                    dataType: "script",
+                    cache: true,
+                    url: url
+                };
+                return jQuery.ajax(options);
+            }
+                ;
+            $.cachedScript("https://static.tildacdn.com/js/tilda-zero-forms-1.0.min.js").done(function (script, textStatus) {
+                if (textStatus == 'success') {
+                    setTimeout(function () {
+                        var recid = '202763041';
+                        var elemid = '1592290514594';
+                        t_zeroForms__init(recid, elemid);
+                    }, 500);
+                } else {
+                    console.log('Error init form in zeroblock. Err:' + textStatus);
+                }
+            });
+        });
+    </script>
     <!--allrecords-->
     <div id="allrecords" class="t-records" data-hook="blocks-collection-content-node" data-tilda-project-id="1125660" data-tilda-page-id="12109718" data-tilda-page-alias="vebinar1" data-tilda-formskey="7842248a57e71cc632887cb895681d50">
         <div id="rec202763039" class="r t-rec" style=" " data-record-type="215">
@@ -179,31 +213,6 @@
                         border-style: solid;
                     }
 
-                @@media screen and (max-width: 1199px) {
-                    #rec202763041 .tn-elem[data-elem-id="1466084312673"] {
-                        top: calc(50vh - 380px + 145pxpx);
-                        left: calc(50% - 230px + 250pxpx);
-                        width: 460pxpx;
-                    }
-
-                        #rec202763041 .tn-elem[data-elem-id="1466084312673"] .tn-atom {
-                            font-size: 20px;
-                        }
-                }
-
-                @@media screen and (max-width: 959px) {
-                    #rec202763041 .tn-elem[data-elem-id="1466084312673"] {
-                        top: calc(50vh - 510px + 145pxpx);
-                        left: calc(50% - 230px + 90pxpx);
-                    }
-                }
-
-                @@media screen and (max-width: 639px) {
-                    #rec202763041 .tn-elem[data-elem-id="1466084312673"] {
-                        top: calc(50vh - 475px + 145pxpx);
-                        left: calc(50% - 230px + 10pxpx);
-                    }
-                }
 
                 @@media screen and (max-width: 479px) {
                     #rec202763041 .tn-elem[data-elem-id="1466084312673"] {
@@ -290,140 +299,121 @@
                 }
 
 
-                    #rec202763041 .tn-elem[data-elem-id="1469181670613"] .tn-atom {
-                        color: #ffffff;
-                        font-size: 23px;
-                        font-family: 'Roboto',Arial,sans-serif;
-                        font-weight: 400;
-                        opacity: 0.6;
-                        background-position: center center;
-                        border-color: transparent;
-                        border-style: solid;
-                    }
+                #rec202763041 .tn-elem[data-elem-id="1469181670613"] .tn-atom {
+                    color: #ffffff;
+                    font-size: 23px;
+                    font-family: 'Roboto',Arial,sans-serif;
+                    font-weight: 400;
+                    opacity: 0.6;
+                    background-position: center center;
+                    border-color: transparent;
+                    border-style: solid;
+                }
 
 
-                    #rec202763041 .tn-elem[data-elem-id="1469549922981"] .tn-atom {
-                        color: #ffffff;
-                        font-size: 20px;
-                        font-family: 'Roboto',Arial,sans-serif;
-                        line-height: 1.55;
-                        font-weight: 500;
-                        background-position: center center;
-                        border-color: transparent;
-                        border-style: solid;
-                    }
+                #rec202763041 .tn-elem[data-elem-id="1469549922981"] .tn-atom {
+                    color: #ffffff;
+                    font-size: 20px;
+                    font-family: 'Roboto',Arial,sans-serif;
+                    line-height: 1.55;
+                    font-weight: 500;
+                    background-position: center center;
+                    border-color: transparent;
+                    border-style: solid;
+                }
 
-                    #rec202763041 .tn-elem[data-elem-id="1469549857584"] .tn-atom {
-                        color: #ffffff;
-                        font-size: 20px;
-                        font-family: 'Roboto',Arial,sans-serif;
-                        line-height: 1.55;
-                        font-weight: 500;
-                        background-position: center center;
-                        border-color: transparent;
-                        border-style: solid;
-                    }
-
-
-    
-
-                    #rec202763041 .tn-elem[data-elem-id="1481709314249"] .tn-atom {
-                        color: #ffffff;
-                        font-size: 20px;
-                        font-family: 'Roboto',Arial,sans-serif;
-                        line-height: 1.55;
-                        font-weight: 500;
-                        background-position: center center;
-                        border-color: transparent;
-                        border-style: solid;
-                    }
+                #rec202763041 .tn-elem[data-elem-id="1469549857584"] .tn-atom {
+                    color: #ffffff;
+                    font-size: 20px;
+                    font-family: 'Roboto',Arial,sans-serif;
+                    line-height: 1.55;
+                    font-weight: 500;
+                    background-position: center center;
+                    border-color: transparent;
+                    border-style: solid;
+                }
 
 
 
-                    #rec202763041 .tn-elem[data-elem-id="1587199340262"] .tn-atom {
-                        color: #fcf9f9;
-                        font-size: 15px;
-                        font-family: 'Roboto',Arial,sans-serif;
-                        line-height: 1.55;
-                        font-weight: 400;
-                        background-position: center center;
-                        border-color: transparent;
-                        border-style: solid;
-                    }
+
+                #rec202763041 .tn-elem[data-elem-id="1481709314249"] .tn-atom {
+                    color: #ffffff;
+                    font-size: 20px;
+                    font-family: 'Roboto',Arial,sans-serif;
+                    line-height: 1.55;
+                    font-weight: 500;
+                    background-position: center center;
+                    border-color: transparent;
+                    border-style: solid;
+                }
 
 
 
-                    #rec202763041 .tn-elem[data-elem-id="1589307211752"] .tn-atom {
-                        color: #ffffff;
-                        font-size: 14px;
-                        font-family: 'Arial',Arial,sans-serif;
-                        line-height: 1.55;
-                        font-weight: 600;
-                        border-width: 1px;
-                        border-radius: 30px;
-                        background-color: #4a76a8;
-                        background-position: center center;
-                        border-color: transparent;
-                        border-style: solid;
-                        transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, border-color 0.2s ease-in-out;
-                    }
+                #rec202763041 .tn-elem[data-elem-id="1587199340262"] .tn-atom {
+                    color: #fcf9f9;
+                    font-size: 15px;
+                    font-family: 'Roboto',Arial,sans-serif;
+                    line-height: 1.55;
+                    font-weight: 400;
+                    background-position: center center;
+                    border-color: transparent;
+                    border-style: solid;
+                }
 
 
-    
-                    #rec202763041 .tn-elem[data-elem-id="1589307347500"] .tn-atom {
-                        color: #ffffff;
-                        font-size: 14px;
-                        font-family: 'Arial',Arial,sans-serif;
-                        line-height: 1.55;
-                        font-weight: 600;
-                        border-width: 1px;
-                        border-radius: 30px;
-                        background-color: #3092e6;
-                        background-position: center center;
-                        border-color: transparent;
-                        border-style: solid;
-                        transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, border-color 0.2s ease-in-out;
-                    }
 
-       
-                <!-- /allrecords-- >
-                <!-- Stat -->
-                <!-- FB Pixel code (noscript) -->
-                <noscript >
-                <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=2661144310765814&ev=PageView&agent=pltilda&noscript=1" / >
-                </noscript >
-                <!-- End FB Pixel code (noscript) -->
-                <!-- Yandex.Metrika counter 62058643 -->
-                <script type="text/javascript" >
-                (function (m, e, t, r, i, k, a) {
-            m[i] = m[i] || function () {
-                (m[i].a = m[i].a || []).push(arguments)
-            }
-                ;
-            m[i].l = 1 * new Date();
-            k = e.createElement(t),
-                a = e.getElementsByTagName(t)[0],
-                k.async = 1,
-                k.src = r,
-                a.parentNode.insertBefore(k, a)
-        }
-        )(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-                window.mainMetrikaId = 62058643;
-                ym(window.mainMetrikaId, "init", {
-            clickmap: true,
-            trackLinks: true,
-            accurateTrackBounce: true,
-            webvisor: true,
-            ecommerce: "dataLayer"
-        });
+                #rec202763041 .tn-elem[data-elem-id="1589307211752"] .tn-atom {
+                    color: #ffffff;
+                    font-size: 14px;
+                    font-family: 'Arial',Arial,sans-serif;
+                    line-height: 1.55;
+                    font-weight: 600;
+                    border-width: 1px;
+                    border-radius: 30px;
+                    background-color: #4a76a8;
+                    background-position: center center;
+                    border-color: transparent;
+                    border-style: solid;
+                    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+                }
+
+
+
+                #rec202763041 .tn-elem[data-elem-id="1589307347500"] .tn-atom {
+                    color: #ffffff;
+                    font-size: 14px;
+                    font-family: 'Arial',Arial,sans-serif;
+                    line-height: 1.55;
+                    font-weight: 600;
+                    border-width: 1px;
+                    border-radius: 30px;
+                    background-color: #3092e6;
+                    background-position: center center;
+                    border-color: transparent;
+                    border-style: solid;
+                    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+                }
+
+                <script >
+                $(document).ready(function () {
+                    t142_checkSize('202783678');
+                });
+                $(window).load(function () {
+                    t142_checkSize('202783678');
+                });
                 </script >
-                <noscript >
-                <div >
-                <img src="https://mc.yandex.ru/watch/62058643" style="position:absolute; left:-9999px;" alt="" / >
-                </div >
-                </noscript >
+                <style >
+                #rec202783678 .t-btn[data-btneffects-first], #rec202783678 .t-btn[data-btneffects-second], #rec202783678 .t-submit[data-btneffects-first], #rec202783678 .t-submit[data-btneffects-second] {
+                    position: relative;
+                    overflow: hidden;
+                    -webkit-transform: translate3d(0,0,0);
+                    transform: translate3d(0,0,0);
+                }
+            </style>
+            <script type="text/javascript">
+                $(document).ready(function () { });
+            </script>
 
-               
-                </div >
-                </body >
-                </html >
+        </div>
+</body>
+      </html >

@@ -84,12 +84,8 @@ namespace LAlg.Controllers
             ViewBag.Code = code;
             return View();
         }
+
     }
-}
-
-
-namespace MvcMovie.Controllers
-{
     public class Vebinar1Controller : Controller
     {
 
