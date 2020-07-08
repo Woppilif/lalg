@@ -40,10 +40,10 @@
                 @Html.DisplayFor(modelItem => item.Price)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.AgeId)
+                @Html.DisplayFor(modelItem => item.AgeId) <!-- item.Age[0].Name наверное надо использовать, но он пустой -->
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ProductType.ProductTypeId)
+                @Html.DisplayFor(modelItem => item.ProductType.Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.FreeTimes)

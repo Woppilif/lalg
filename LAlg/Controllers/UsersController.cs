@@ -20,10 +20,87 @@ namespace LAlg.Controllers
         }
 
         // GET: Users
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder)
         {
+            //ViewBag.
             var botAppContext = _context.Users.Include(u => u.Age).Include(u => u.Group);
-            return View(await botAppContext.ToListAsync());
+
+            ViewBag.FirstNameSortParm = String.IsNullOrEmpty(sortOrder) ? "UserName" : "";
+            ViewBag.PhoneSortParm = sortOrder == "Phone" ? "" : "Phone";
+            ViewBag.CreateSortParm = sortOrder == "CreatedAt" ? "" : "CreatedAt";
+            //ViewBag.GroupSortParm = sortOrder == "Group" ? "" : "Group";//почему то null выдает
+            ViewBag.LastNameSortParm = sortOrder == "LastName" ? "" : "LastName";
+            ViewBag.RegSortParm = sortOrder == "Reg" ? "" : "Reg";
+            ViewBag.AgeSortParm = sortOrder == "Age" ? "" : "Age";
+            ViewBag.IsAdminSortParm = sortOrder == "IsAdmin" ? "" : "IsAdmin";
+            ViewBag.IsTeacherSortParm = sortOrder == "IsTeacher" ? "" : "IsTeacher";
+            ViewBag.BalanceSortParm = sortOrder == "Balance" ? "" : "Balance";
+
+            /*if (String.IsNullOrEmpty(sortOrder))
+            {
+                ViewBag.NameSortParm = "UserName";
+            }
+            else if (sortOrder == "Phone")
+            {
+                ViewBag.PhoneSortParm = sortOrder;
+            }else if(sortOrder == "CreatedAt")
+            {
+                ViewBag.CreateSortParm = sortOrder;
+            }
+            else
+            {
+                sortOrder = "!!!";
+            }*/
+
+
+            //ViewBag.PhoneSortParm = sortOrder == "Phone" ? "" : "Phone"; 
+            //ViewBag.CreateSortParm = sortOrder == "CreatedAt" ? "" : "CreatedAt"; 
+
+            //ViewBag.PhoneSortParm = sortOrder == "UserName" ? "" : "UserName"; 
+            //ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+
+            /*botAppContext.Where(s => s.Firstname.Contains(searchString)
+                               || s.FirstMidName.Contains(searchString));*/
+
+            switch (sortOrder)
+            {
+                case "UserName":
+                    var user = botAppContext.ToList().OrderBy(s => s.Firstname);//.OrderBy(s => s.Firstname);
+                    return View(user.ToList());
+
+                case "Phone":
+                    user = botAppContext.ToList().OrderBy(s => s.Phone);
+                     return View(user.ToList());
+
+                case "CreatedAt":
+                    user = botAppContext.ToList().OrderBy(s => s.CreatedAt);
+                    return View(user.ToList());
+
+                case "Group":
+                    user = botAppContext.ToList().OrderBy(s => s.Group.Name);
+                    return View(user.ToList());
+
+                case "LastName":
+                    user = botAppContext.ToList().OrderBy(s => s.Lastname);
+                    return View(user.ToList());
+                case "Reg":
+                    user = botAppContext.ToList().OrderBy(s => s.Registered);
+                    return View(user.ToList());
+                case "Age":
+                    user = botAppContext.ToList().OrderBy(s => s.AgeId);//не уверен по чему надо сортировать
+                    return View(user.ToList());
+                case "IsAdmin":
+                    user = botAppContext.ToList().OrderBy(s => s.IsAdmin);
+                    return View(user.ToList());
+                case "IsTeacher":
+                    user = botAppContext.ToList().OrderBy(s => s.IsTeacher);
+                    return View(user.ToList());
+                case "Balance":
+                    user = botAppContext.ToList().OrderBy(s => s.Balance);
+                    return View(user.ToList());
+            }
+            //user.ToListAs
+            return View(await botAppContext.ToListAsync()); //если sortOrder пуст, то никак не сортируется
         }
 
         // GET: Users/Details/5
