@@ -35,6 +35,15 @@
 @foreach (var item in Model) {
         <tr>
             <td>
+                @{/*
+string fullname;
+if (String.IsNullOrEmpty(item.Users.Lastname) && String.IsNullOrEmpty(item.Users.Firstname))
+{
+fullname = item.Users.Firstname + " " + item.Users.Lastname;
+}
+else fullname = item.Users.UserId.ToString();
+*/}
+
                 @Html.DisplayFor(modelItem => item.Users.UserId)
             </td>
             <td>

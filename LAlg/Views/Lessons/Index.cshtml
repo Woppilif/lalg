@@ -37,7 +37,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Group.GroupId)
+                @Html.DisplayFor(modelItem => item.Group.Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.LessonAt)
@@ -49,7 +49,7 @@
                 @Html.DisplayFor(modelItem => item.Url)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Pattern.PatternId)
+                @Html.DisplayFor(modelItem => item.Pattern.Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.IsRepeats)
