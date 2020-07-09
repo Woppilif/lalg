@@ -21,9 +21,13 @@ namespace LAlg.Controllers
         }
 
         // GET: Lessons
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(Guid? id)
         {
-            var botAppContext = _context.Lessons.Include(l => l.Group).Include(l => l.Pattern);
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var botAppContext = _context.Lessons.Where(l => l.GroupId == id).Include(l => l.Group).Include(l => l.Pattern);
             return View(await botAppContext.ToListAsync());
         }
 

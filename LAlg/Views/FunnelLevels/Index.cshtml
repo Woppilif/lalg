@@ -1,0 +1,49 @@
+﻿@model IEnumerable<BotAppData.Models.FunnelLevel>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create" asp-route-id="@ViewData["FunnelId"]">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Funnel)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Group)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Product)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Funnel.FunnelId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Group.GroupId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Product.ProductId)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.FunnelLevelId">Редактировать</a> |
+                <a asp-action="Details" asp-route-id="@item.FunnelLevelId">Детали</a> |
+                <a asp-action="Delete" asp-route-id="@item.FunnelLevelId">Удалить</a> |
+                <a asp-controller="Groups" asp-action="Index" asp-route-id="@item.Group.GroupId">Группа</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

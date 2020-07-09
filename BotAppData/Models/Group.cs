@@ -8,12 +8,12 @@ namespace BotAppData.Models
     {
         public Guid GroupId { get; set; }
         public string Name { get; set; }
-        public int AgeId { get; set; }
+        public int? AgeId { get; set; }
         public Age Age { get; set; }
-        public int GroupTypeId { get; set; }
+        public int? GroupTypeId { get; set; }
         public GroupType GroupType { get; set; }
         public Guid Creator { get; set; }
-        public Guid ProductId { get; set; }
+        public Guid? ProductId { get; set; }
         public Product Product { get; set; }
         public bool IsClosed { get; set; }
         public bool IsCommon { get; set; }
@@ -21,6 +21,7 @@ namespace BotAppData.Models
         public Group()
         {
             GroupId = new Guid();
+            IsClosed = false;
         }
     }
 }

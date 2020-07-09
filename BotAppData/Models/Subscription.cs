@@ -9,7 +9,7 @@ namespace BotAppData.Models
         public User Users { get; set; }
         public DateTime Begin { get; set; }
         public DateTime End { get; set; }
-        public Guid ProductId { get; set; }
+        public Guid? ProductId { get; set; }
         public Product Product { get; set; }
         public bool IsActive { get; set; }
         public Subscription()
