@@ -1,16 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using BotAppData;
+using BotAppData.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using BotAppData;
-using BotAppData.Models;
+using System;
+using System.Linq;
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace LAlg.Controllers
 {
+    [Authorize]
     public class FunnelLevelsController : Controller
     {
         private readonly BotAppContext _context;
@@ -50,7 +51,7 @@ namespace LAlg.Controllers
             {
                 return NotFound();
             }
-
+            ViewData["FunnelId"] = funnelLevel.FunnelId;
             return View(funnelLevel);
         }
 
@@ -102,6 +103,7 @@ namespace LAlg.Controllers
             {
                 return NotFound();
             }
+            ViewData["FunnelId"] = funnelLevel.FunnelId;
             ViewData["ProductId"] = new SelectList(_context.Products, "ProductId", "ProductId", funnelLevel.ProductId);
             return View(funnelLevel);
         }
@@ -138,6 +140,7 @@ namespace LAlg.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["FunnelId"] = funnelLevel.FunnelId;
             ViewData["ProductId"] = new SelectList(_context.Products, "ProductId", "ProductId", funnelLevel.ProductId);
             return View(funnelLevel);
         }
@@ -159,7 +162,7 @@ namespace LAlg.Controllers
             {
                 return NotFound();
             }
-
+            ViewData["FunnelId"] = funnelLevel.FunnelId;
             return View(funnelLevel);
         }
 

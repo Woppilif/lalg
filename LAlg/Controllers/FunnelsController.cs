@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using BotAppData;
 using BotAppData.Models;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LAlg.Controllers
 {
+    [Authorize]
     public class FunnelsController : Controller
     {
         private readonly BotAppContext _context;
