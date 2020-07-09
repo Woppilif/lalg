@@ -24,4 +24,8 @@
     <ProjectReference Include="..\VkBot\VkBot.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\CommonPageTwo\" />
+  </ItemGroup>
+
 </Project>

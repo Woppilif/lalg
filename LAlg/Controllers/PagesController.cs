@@ -84,5 +84,12 @@ namespace LAlg.Controllers
             ViewBag.Code = code;
             return View();
         }
+
+        [HttpGet]
+        public IActionResult CommonPageTwo()
+        {
+            ViewData["Title"] = "CommonPageTwo";
+            return View();
+        }
     }
 }
