@@ -84,5 +84,11 @@ namespace LAlg.Controllers
             ViewBag.Code = code;
             return View();
         }
+
+        public IActionResult Vebinar1()
+        {
+            return View("~/Views/Pages/Vebinar1.cshtml");
+        }
+
     }
 }
