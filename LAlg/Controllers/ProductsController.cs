@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace LAlg.Controllers
@@ -39,11 +40,13 @@ namespace LAlg.Controllers
                 user = user.Where(s => s.Name.ToUpper().Contains(search.ToUpper())
                                  || s.Price.ToString().Contains(search)
                                  || s.ProductType.Name.ToUpper().Contains(search.ToUpper())
-                                 || s.AgeId.ToString().ToUpper().Contains(search.ToUpper())
+                                 //|| s.AgeId.ToString().ToUpper().Contains(search.ToUpper())
                                  || s.FreeTimes.ToString().Contains(search));
 
                 return View(user.ToList());
             }
+            //System.Reflection.MemberInfo property = typeof(BotAppData.Models.Age).GetProperty("Order");
+            //var dd = property.GetCustomAttribute(typeof(System.ComponentModel.DataAnnotations.DisplayAttribute)) as DisplayAttribute;
 
             switch (sortOrder)
             {

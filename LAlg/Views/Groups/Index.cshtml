@@ -9,7 +9,6 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-
 @using (Html.BeginForm())
 {
     <p>
@@ -17,23 +16,19 @@
         <input type="submit" value="search me" />
     </p>
 }
-
 <table class="table">
     <thead>
         <tr>
             <th>
                 @Html.ActionLink("Название", "Index", new { sortOrder = ViewBag.NameSortParm })
-
                 <!--@@Html.DisplayNameFor(model => model.Name)-->
             </th>
             <th>
                 @Html.ActionLink("Age", "Index", new { sortOrder = ViewBag.AgeSortParm })
-
                 <!--@@Html.DisplayNameFor(model => model.Age)-->
             </th>
             <th>
                 @Html.ActionLink("GroupType", "Index", new { sortOrder = ViewBag.GroupTypeSortParm })
-
                 <!--@@Html.DisplayNameFor(model => model.GroupType)-->
             </th>
             <th>

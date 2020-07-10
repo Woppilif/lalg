@@ -1,4 +1,4 @@
-﻿@model IEnumerable<BotAppData.Models.User>
+﻿@model IEnumerable<BotAppData.Models.User> 
 
 @{
     ViewData["Title"] = "Index";
@@ -24,57 +24,48 @@
         <tr>
             <th>
                 @Html.ActionLink("CreatedAt", "Index", new { sortOrder = ViewBag.CreateSortParm })
-
                 <!--@@Html.DisplayNameFor(model => model.CreatedAt)-->
             </th>
             <th>
-                @Html.ActionLink("Group", "Index", new { sortOrder = ViewBag.GroupSortParm })
-
+                @{  //De str = model => model.Group.Name;
+                    Html.ActionLink("Name", "Index", new { sortOrder = ViewBag.GroupSortParm });
+                        }
                 <!--@@Html.DisplayNameFor(model => model.Group.Name)-->
             </th>
             <th>
                 @Html.ActionLink("Platform", "Index", new { sortOrder = ViewBag.PlatformSortParam })
-
                 <!--@@Html.DisplayNameFor(model => model.Platform)-->
             </th>
             <th>
                 @Html.ActionLink("Имя", "Index", new { sortOrder = ViewBag.FirstNameSortParm })
-
                 <!--@@Html.DisplayNameFor(model => model.Firstname)-->
             </th>
             <th>
                 @Html.ActionLink("Фамилия", "Index", new { sortOrder = ViewBag.LastNameSortParm })
-
                 <!--@@Html.DisplayNameFor(model => model.Lastname)-->
             </th>
             <th>
                 @Html.ActionLink("Телефон", "Index", new { sortOrder = ViewBag.PhoneSortParm })
-
                 <!--@@Html.DisplayNameFor(model => model.Phone)-->
             </th>
             <th>
                 @Html.ActionLink("Registered", "Index", new { sortOrder = ViewBag.RegSortParm })
-
                 <!--@@Html.DisplayNameFor(model => model.Registered)-->
             </th>
             <th>
                 @Html.ActionLink("Возраст", "Index", new { sortOrder = ViewBag.AgeSortParm })
-
                 <!--@@Html.DisplayNameFor(model => model.Age)-->
             </th>
             <th>
                 @Html.ActionLink("IsAdmin", "Index", new { sortOrder = ViewBag.IsAdminSortParm })
-
                 <!--@@Html.DisplayNameFor(model => model.IsAdmin)-->
             </th>
             <th>
                 @Html.ActionLink("IsTeacher", "Index", new { sortOrder = ViewBag.IsTeacherSortParm })
-
                 <!--@@Html.DisplayNameFor(model => model.IsTeacher)-->
             </th>
             <th>
                 @Html.ActionLink("Balance", "Index", new { sortOrder = ViewBag.BalanceSortParm })
-
                 <!--@@Html.DisplayNameFor(model => model.Balance)-->
             </th>
             <th></th>
