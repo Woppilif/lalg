@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VkBot", "VkBot\VkBot.csproj
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NotificationService", "NotificationService\NotificationService.csproj", "{C9E83456-8734-426E-A20D-897DF636A841}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lalgTest", "lalgTests\lalgTest\lalgTest.csproj", "{35A58476-6E7D-46F0-B00B-52BD868B74DB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{2D927F67-4408-4C81-8566-2093DF566F71}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,10 +47,10 @@ Global
 		{C9E83456-8734-426E-A20D-897DF636A841}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C9E83456-8734-426E-A20D-897DF636A841}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C9E83456-8734-426E-A20D-897DF636A841}.Release|Any CPU.Build.0 = Release|Any CPU
-		{35A58476-6E7D-46F0-B00B-52BD868B74DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{35A58476-6E7D-46F0-B00B-52BD868B74DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{35A58476-6E7D-46F0-B00B-52BD868B74DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{35A58476-6E7D-46F0-B00B-52BD868B74DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D927F67-4408-4C81-8566-2093DF566F71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D927F67-4408-4C81-8566-2093DF566F71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D927F67-4408-4C81-8566-2093DF566F71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D927F67-4408-4C81-8566-2093DF566F71}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
