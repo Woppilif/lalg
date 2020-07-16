@@ -9,6 +9,6 @@ namespace BotAppData.Interfaces
     {
         Task<string> GetCache(string cacheKey);
 
-        Task SetCache(string cacheKey, object keyVal, TimeSpan timeLive);
+        Task SetCache(string cacheKey, string keyVal, TimeSpan timeLive);
     }
 }
