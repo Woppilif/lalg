@@ -1,10 +1,12 @@
 ﻿using BotAppData;
+using BotAppData.CacheService;
 using BotAppData.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
 using System;
 using System.Linq;
 using System.Security.Claims;
@@ -17,19 +19,30 @@ namespace LAlg.Controllers
     {
         private readonly BotAppContext _context;
         private readonly UserManager<IdentityUser> _userManager;
+        private Cache cache;
+        //private readonly IDistributedCache _distributedCache;
+
         public UsersController(BotAppContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
             _userManager = userManager;
+            //_distributedCache = distributedCache;
         }
 
         // GET: Users
-        public async Task<IActionResult> Index(Guid? id)
+        public async Task<IActionResult> Index(Guid? id, string sortOrder)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            //if (id == null)
+            //{
+            //    return NotFound();
+            //}
+
+            var cacheKey = "TheTime";
+            var date = DateTime.UtcNow.ToString();
+            //_distributedCache.SetString(cacheKey, date);
+            cache.SetCache(cacheKey, date, TimeSpan.FromMinutes(1));            
+            ViewBag.Cache = cache.GetCache(cacheKey);
+
             var botAppContext = _context.Users.Where(u => u.GroupId == id).Include(u => u.Age).Include(u => u.Group);
             return View(await botAppContext.ToListAsync());
         }

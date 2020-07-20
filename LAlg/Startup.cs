@@ -69,7 +69,13 @@ namespace LAlg
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews().AddNewtonsoftJson();
             services.AddRazorPages();
-            services.AddMemoryCache();            
+            services.AddMemoryCache();
+            //Configuration.GetConnectionString
+            services.AddDistributedRedisCache(options =>
+            {                             
+                options.Configuration = Configuration.GetConnectionString("DefaultConnection");
+                options.InstanceName = "SampleInstance";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

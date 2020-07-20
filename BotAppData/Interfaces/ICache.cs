@@ -7,8 +7,8 @@ namespace BotAppData.Interfaces
 {
     interface ICache
     {
+        void CloseCache();
         Task<string> GetCache(string cacheKey);
-
         Task SetCache(string cacheKey, string keyVal, TimeSpan timeLive);
     }
 }
