@@ -4,77 +4,93 @@
     ViewData["Title"] = "Платежи";
 }
 
-    <h1>Платежи</h1>
+<h1>Платежи</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+@using (Html.BeginForm())
+{
+    <p>
+        Поиск: @Html.TextBox("search")
+        <input type="submit" value="search me" />
+    </p>
+}
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Users)
+                @Html.ActionLink("Имя", "Index", new { sortOrder = ViewBag.FirstNameSortParm })
+                <!--@@Html.DisplayNameFor(model => model.Users)-->
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CreatedAt)
+                @Html.ActionLink("CreatedAt", "Index", new { sortOrder = ViewBag.CreatedAtSortParm })
+                <!--@@Html.DisplayNameFor(model => model.CreatedAt)-->
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CapturedAt)
+                @Html.ActionLink("CapturedAt", "Index", new { sortOrder = ViewBag.CapturedAtSortParm })
+                <!--@@Html.DisplayNameFor(model => model.CapturedAt)-->
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IsPayed)
+                @Html.ActionLink("IsPayed", "Index", new { sortOrder = ViewBag.IsPayedSortParm })
+                <!--@@Html.DisplayNameFor(model => model.IsPayed)-->
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Subscription)
+                @Html.ActionLink("Subscription", "Index", new { sortOrder = ViewBag.SubscriptionSortParm })
+                <!--@@Html.DisplayNameFor(model => model.Subscription)-->
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Amount)
+                @Html.ActionLink("Amount", "Index", new { sortOrder = ViewBag.AmountSortParm })
+                <!--@@Html.DisplayNameFor(model => model.Amount)-->
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PaymentId)
+                @Html.ActionLink("PaymentId", "Index", new { sortOrder = ViewBag.PaymentIdSortParm })
+                <!--@@Html.DisplayNameFor(model => model.PaymentId)-->
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IsExtends)
+                @Html.ActionLink("IsExtends", "Index", new { sortOrder = ViewBag.IsExtendsSortParm })
+                <!--@@Html.DisplayNameFor(model => model.IsExtends)-->
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @{ 
-                    string fullname = item.Users.Firstname + " " + item.Users.Lastname;
-                }
-                @Html.DisplayFor(modelItem => fullname)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedAt)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CapturedAt)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsPayed)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Subscription.SubscriptionId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Amount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PaymentId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsExtends)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Редактировать</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Детали</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @{
+                        string fullname = item.Users.Firstname + " " + item.Users.Lastname;
+                    }
+                    @Html.DisplayFor(modelItem => fullname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedAt)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CapturedAt)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsPayed)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Subscription.SubscriptionId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Amount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PaymentId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsExtends)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Редактировать</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Детали</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

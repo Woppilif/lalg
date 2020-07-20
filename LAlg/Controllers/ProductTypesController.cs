@@ -3,6 +3,7 @@ using BotAppData.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -19,8 +20,33 @@ namespace LAlg.Controllers
         }
 
         // GET: ProductTypes
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, string search)
         {
+            var botAppContext = _context.ProductTypes;
+
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "Name" : "";
+            ViewBag.IsActiveSortParm = sortOrder == "IsActive" ? "" : "IsActive";
+
+
+            var user = from s in botAppContext
+                       select s;
+
+            if (!String.IsNullOrEmpty(search))
+            {
+                user = user.Where(s => s.Name.ToUpper().Contains(search.ToUpper()));
+
+                return View(user.ToList());
+            }
+
+            switch (sortOrder)
+            {
+                case "Name":
+                    //var user = botAppContext.ToList().OrderBy(s => s.Group.Name);
+                    return View(user.ToList().OrderBy(s => s.Name));
+                case "IsActive":
+                    //user = botAppContext.ToList().OrderBy(s => s.LessonAt);
+                    return View(user.ToList().OrderBy(s => s.IsActive));
+            }
             return View(await _context.ProductTypes.ToListAsync());
         }
 

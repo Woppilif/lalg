@@ -21,9 +21,47 @@ namespace LAlg.Controllers
         }
 
         // GET: PatternMessages
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, string search)
         {
             var botAppContext = _context.PatternMessages.Include(p => p.Pattern);
+
+            ViewBag.PatternSortParm = String.IsNullOrEmpty(sortOrder) ? "Pattern" : "";
+            ViewBag.IsGreetingSortParm = sortOrder == "IsGreeting" ? "" : "IsGreeting";
+            ViewBag.MessageSortParm = sortOrder == "Message" ? "" : "Message";
+            ViewBag.AtTimeSortParm = sortOrder == "AtTime" ? "" : "AtTime";
+            ViewBag.StatusSortParm = sortOrder == "Status" ? "" : "Status";
+
+            var user = from s in botAppContext
+                       select s;
+
+            if (!String.IsNullOrEmpty(search))
+            {
+                user = botAppContext.Where(s => s.Pattern.Name.ToUpper().Contains(search.ToUpper())
+                                 || s.Message.ToUpper().Contains(search.ToUpper())
+                                 || s.AtTime.ToString().Contains(search));
+
+                return View(user.ToList());
+            }
+
+            switch (sortOrder)
+            {
+                case "Pattern":
+                    //var user = botAppContext.ToList().OrderBy(s => s.Group.Name);
+                    return View(user.ToList().OrderBy(s => s.Pattern.Name));
+                case "IsGreeting":
+                    //user = botAppContext.ToList().OrderBy(s => s.LessonAt);
+                    return View(user.ToList().OrderBy(s => s.IsGreeting));
+                case "Message":
+                    //user = botAppContext.ToList().OrderBy(s => s.LessonAt);
+                    return View(user.ToList().OrderBy(s => s.Message));
+                case "AtTime":
+                    //user = botAppContext.ToList().OrderBy(s => s.LessonAt);
+                    return View(user.ToList().OrderBy(s => s.AtTime));
+                case "Status":
+                    //user = botAppContext.ToList().OrderBy(s => s.LessonAt);
+                    return View(user.ToList().OrderBy(s => s.Status));
+            }
+
             return View(await botAppContext.ToListAsync());
         }
 
