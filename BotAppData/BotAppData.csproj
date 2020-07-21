@@ -11,4 +11,6 @@
     <PackageReference Include="StackExchange.Redis" Version="2.1.58" />
   </ItemGroup>
 
+  <ProjectExtensions><VisualStudio><UserProperties redissetting_1json__JsonSchema="https://json.schemastore.org/appsettings" /></VisualStudio></ProjectExtensions>
+
 </Project>

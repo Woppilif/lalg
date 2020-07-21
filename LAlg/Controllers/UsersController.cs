@@ -1,12 +1,14 @@
 ﻿using BotAppData;
-using BotAppData.CacheService;
+//using BotAppData.CacheService;
 using BotAppData.Models;
+using BotAppData.RedisService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Security.Claims;
@@ -17,31 +19,39 @@ namespace LAlg.Controllers
     [Authorize]
     public class UsersController : Controller
     {
+        //private ILogger<UsersController> logger;
         private readonly BotAppContext _context;
         private readonly UserManager<IdentityUser> _userManager;
-        private Cache cache;
+        private readonly RedisService _redisService;
+        //private Cache cache = new Cache();
         //private readonly IDistributedCache _distributedCache;
 
-        public UsersController(BotAppContext context, UserManager<IdentityUser> userManager)
+        public UsersController(BotAppContext context, UserManager<IdentityUser> userManager, RedisService redisService)//, IDistributedCache distributedCache
         {
             _context = context;
             _userManager = userManager;
+            _redisService = redisService;
             //_distributedCache = distributedCache;
         }
 
         // GET: Users
-        public async Task<IActionResult> Index(Guid? id, string sortOrder)
+        public async Task<IActionResult> Index(Guid? id)
         {
             //if (id == null)
             //{
             //    return NotFound();
             //}
 
-            var cacheKey = "TheTime";
-            var date = DateTime.UtcNow.ToString();
-            //_distributedCache.SetString(cacheKey, date);
-            cache.SetCache(cacheKey, date, TimeSpan.FromMinutes(1));            
-            ViewBag.Cache = cache.GetCache(cacheKey);
+            //Cache cache = new Cache(_distributedCache);
+            //var cacheKey = "TheTime";
+            //var date = DateTime.UtcNow.ToString();
+            ////_distributedCache.SetString(cacheKey, date);
+            //cache.SetCache(cacheKey, date, TimeSpan.FromMinutes(1));            
+            //ViewBag.Cache = cache.GetCache(cacheKey);
+
+            await _redisService.Set("{AAAidAAA}", "How many claps per person should this article get?");
+            var definitely = await _redisService.Get("{AAAidAAA}");
+            //logger.LogInformation(definitely);
 
             var botAppContext = _context.Users.Where(u => u.GroupId == id).Include(u => u.Age).Include(u => u.Group);
             return View(await botAppContext.ToListAsync());

@@ -15,6 +15,9 @@ using Microsoft.Extensions.Hosting;
 using TelegramBot;
 using VkBot;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Infrastructure;
+using BotAppData.RedisService;
+using StackExchange.Redis;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LAlg
 {
@@ -69,17 +72,24 @@ namespace LAlg
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews().AddNewtonsoftJson();
             services.AddRazorPages();
-            services.AddMemoryCache();
-            //Configuration.GetConnectionString
-            services.AddDistributedRedisCache(options =>
-            {                             
-                options.Configuration = Configuration.GetConnectionString("DefaultConnection");
-                options.InstanceName = "SampleInstance";
-            });
+            //services.AddMemoryCache();
+            ////Configuration.GetConnectionString
+            //services.AddDistributedRedisCache(options =>
+            //{
+            //    options.ConfigurationOptions.SslHost = "5.63.152.213:5432";
+            //    options.ConfigurationOptions.Password = "whatsmyage123";
+            //    options.ConfigurationOptions.ClientName = "postgres";
+            //    options.ConfigurationOptions.Password = "whatsmyage123";
+            //    options.ConfigurationOptions.ServiceName = "master";
+            //    //options.Configuration = "5.63.152.213";
+            //    //options.InstanceName = "SampleInstance"; 
+            //});
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+            services.AddSingleton<RedisService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, RedisService redisService)
         {
             if (env.IsDevelopment())
             {
@@ -107,6 +117,9 @@ namespace LAlg
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
+
+            redisService.Connect();
+            app.UseMvc();
         }
     }
 }
