@@ -37,21 +37,15 @@ namespace LAlg.Controllers
         // GET: Users
         public async Task<IActionResult> Index(Guid? id)
         {
-            //if (id == null)
-            //{
-            //    return NotFound();
-            //}
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-            //Cache cache = new Cache(_distributedCache);
-            //var cacheKey = "TheTime";
-            //var date = DateTime.UtcNow.ToString();
-            ////_distributedCache.SetString(cacheKey, date);
-            //cache.SetCache(cacheKey, date, TimeSpan.FromMinutes(1));            
-            //ViewBag.Cache = cache.GetCache(cacheKey);
-
-            await _redisService.Set("{AAAidAAA}", "How many claps per person should this article get?");
+            var date = DateTime.UtcNow.ToString();
+            await _redisService.Set("{AAAidAAA}", date);
             var definitely = await _redisService.Get("{AAAidAAA}");
-            //logger.LogInformation(definitely);
+            ViewBag.Cache = definitely;
 
             var botAppContext = _context.Users.Where(u => u.GroupId == id).Include(u => u.Age).Include(u => u.Group);
             return View(await botAppContext.ToListAsync());

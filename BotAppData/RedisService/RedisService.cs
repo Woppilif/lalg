@@ -26,7 +26,7 @@ namespace BotAppData.RedisService
         {
             try
             {
-                var configString = "5.63.152.213:5432,connectRetry=5,user=postgres,password=whatsmyage123";
+                var configString = $"localhost:6379,connectRetry=5";//"5.63.152.213:5432,connectRetry=5,user=postgres,password=whatsmyage123";
                 _redis = ConnectionMultiplexer.Connect(configString);
             }
             catch (RedisConnectionException err)
@@ -35,7 +35,6 @@ namespace BotAppData.RedisService
                 throw err;
             }
             //logger.LogDebug("Connected to Redis");
-            //Log.Debug("Connected to Redis");
         }
 
         public async Task Set(string key, string value)

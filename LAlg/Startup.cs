@@ -71,21 +71,13 @@ namespace LAlg
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews().AddNewtonsoftJson();
-            services.AddRazorPages();
-            //services.AddMemoryCache();
-            ////Configuration.GetConnectionString
-            //services.AddDistributedRedisCache(options =>
-            //{
-            //    options.ConfigurationOptions.SslHost = "5.63.152.213:5432";
-            //    options.ConfigurationOptions.Password = "whatsmyage123";
-            //    options.ConfigurationOptions.ClientName = "postgres";
-            //    options.ConfigurationOptions.Password = "whatsmyage123";
-            //    options.ConfigurationOptions.ServiceName = "master";
-            //    //options.Configuration = "5.63.152.213";
-            //    //options.InstanceName = "SampleInstance"; 
-            //});
+            services.AddRazorPages();            
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
-            services.AddSingleton<RedisService>();
+            services.AddSingleton<RedisService>(redis =>
+            {
+                RedisService redisService = new RedisService(Configuration);
+                return redisService;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -119,7 +111,7 @@ namespace LAlg
             });
 
             redisService.Connect();
-            app.UseMvc();
+            //app.UseMvc();
         }
     }
 }
