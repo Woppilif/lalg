@@ -1,10 +1,14 @@
 ﻿using BotAppData;
+//using BotAppData.CacheService;
 using BotAppData.Models;
+using BotAppData.RedisService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Security.Claims;
@@ -15,12 +19,19 @@ namespace LAlg.Controllers
     [Authorize]
     public class UsersController : Controller
     {
+        //private ILogger<UsersController> logger;
         private readonly BotAppContext _context;
         private readonly UserManager<IdentityUser> _userManager;
-        public UsersController(BotAppContext context, UserManager<IdentityUser> userManager)
+        private readonly RedisService _redisService;
+        //private Cache cache = new Cache();
+        //private readonly IDistributedCache _distributedCache;
+
+        public UsersController(BotAppContext context, UserManager<IdentityUser> userManager, RedisService redisService)//, IDistributedCache distributedCache
         {
             _context = context;
             _userManager = userManager;
+            _redisService = redisService;
+            //_distributedCache = distributedCache;
         }
 
         // GET: Users
@@ -30,6 +41,12 @@ namespace LAlg.Controllers
             {
                 return NotFound();
             }
+
+            var date = DateTime.UtcNow.ToString();
+            await _redisService.Set("{AAAidAAA}", date);
+            var definitely = await _redisService.Get("{AAAidAAA}");
+            ViewBag.Cache = definitely;
+
             var botAppContext = _context.Users.Where(u => u.GroupId == id).Include(u => u.Age).Include(u => u.Group);
             return View(await botAppContext.ToListAsync());
         }

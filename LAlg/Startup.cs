@@ -15,6 +15,9 @@ using Microsoft.Extensions.Hosting;
 using TelegramBot;
 using VkBot;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Infrastructure;
+using BotAppData.RedisService;
+using StackExchange.Redis;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LAlg
 {
@@ -68,11 +71,17 @@ namespace LAlg
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews().AddNewtonsoftJson();
-            services.AddRazorPages();
+            services.AddRazorPages();            
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+            services.AddSingleton<RedisService>(redis =>
+            {
+                RedisService redisService = new RedisService(Configuration);
+                return redisService;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, RedisService redisService)
         {
             if (env.IsDevelopment())
             {
@@ -100,6 +109,9 @@ namespace LAlg
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
+
+            redisService.Connect();
+            //app.UseMvc();
         }
     }
 }
