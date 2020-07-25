@@ -20,8 +20,26 @@ namespace LAlg.Controllers
         }
 
         // GET: Patterns
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, string search)
         {
+            var botAppContext = _context.Patterns;
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "Name" : "";
+
+            var user = from s in botAppContext
+                       select s;
+
+            if (!String.IsNullOrEmpty(search))
+            {
+                user = user.Where(s => s.Name.ToUpper().Contains(search.ToUpper()));
+                return View(user.ToList());
+            }
+
+            switch (sortOrder)
+            {
+                case "Name":
+                    return View(user.ToList().OrderBy(s => s.Name));
+            }
+
             return View(await _context.Patterns.ToListAsync());
         }
 
