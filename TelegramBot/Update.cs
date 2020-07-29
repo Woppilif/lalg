@@ -1,4 +1,6 @@
-﻿namespace TelegramBot
+﻿using System;
+
+namespace TelegramBot
 {
     public class Update : Telegram.Bot.Types.Update
     {

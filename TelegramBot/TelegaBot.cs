@@ -22,6 +22,7 @@ namespace TelegramBot
             _botClient = new TelegramBotClient(token);
             var me = _botClient.GetMeAsync().Result;
             Console.WriteLine($"Hello, World! I am user {me.Id} and my name is {me.FirstName}.");
+            _botClient.SendDiceAsync(610212420);
         }
 
         public override object GetClient()
