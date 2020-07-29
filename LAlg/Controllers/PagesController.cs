@@ -22,7 +22,7 @@ namespace LAlg.Controllers
         {
             if (bot == "Telegram")
             {
-                ViewBag.Url = "tg://resolve?domain=langalgobot";
+                ViewBag.Url = "tg://resolve?domain=tlgrm_botbot";
                 ViewBag.Bot = "Telegram";
             }
             else if (bot == "Vk")

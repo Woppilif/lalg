@@ -26,7 +26,7 @@ namespace SchoolBot.Commands.Register
             {
                 System.Text.StringBuilder ageStr = new System.Text.StringBuilder();
                 ageStr.Append(msg.Message);
-                ageStr.Remove(0, Name.Length + 1);
+                ageStr.Remove(0, Name.Length +1);
                 age = db.Ages.Where(a => a.Name == ageStr.ToString() && a.IsShows == true).FirstOrDefault();
                 if (age == null)
                 {

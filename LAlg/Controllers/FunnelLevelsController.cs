@@ -22,15 +22,15 @@ namespace LAlg.Controllers
         }
 
         // GET: FunnelLevels
-        public async Task<IActionResult> Index(Guid? id)
+        public async Task<IActionResult> Index()//Guid? id
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            //if (id == null)
+            //{
+            //    return NotFound();
+            //}
 
-            ViewData["FunnelId"] = id;
-            var botAppContext = _context.FunnelLevels.Where(f => f.FunnelId == id).Include(f => f.Funnel).Include(f => f.Group).Include(f => f.Product);
+            //ViewData["FunnelId"] = id;
+            var botAppContext = _context.FunnelLevels.Include(f => f.Funnel).Include(f => f.Group).Include(f => f.Product);//.Where(f => f.FunnelId == id)
             return View(await botAppContext.ToListAsync());
         }
 

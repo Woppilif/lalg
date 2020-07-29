@@ -21,13 +21,13 @@ namespace LAlg.Controllers
         }
 
         // GET: Groups
-        public async Task<IActionResult> Index(Guid? id)
+        public async Task<IActionResult> Index()//Guid? id
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-            var botAppContext = _context.Groups.Where(g => g.GroupId == id).Include(g => g.Age).Include(g => g.GroupType).Include(g => g.Product);
+            //if (id == null)
+            //{
+            //    return NotFound();
+            //}
+            var botAppContext = _context.Groups.Include(g => g.Age).Include(g => g.GroupType).Include(g => g.Product);//.Where(g => g.GroupId == id)
             return View(await botAppContext.ToListAsync());
         }
 
