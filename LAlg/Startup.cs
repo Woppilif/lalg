@@ -69,6 +69,7 @@ namespace LAlg
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews().AddNewtonsoftJson();
             services.AddRazorPages();
+            services.AddHostedService<TimedHostedService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

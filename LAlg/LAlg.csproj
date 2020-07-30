@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AutoSendMessage\AutoSendMessage.csproj" />
     <ProjectReference Include="..\BotAppData\BotAppData.csproj" />
     <ProjectReference Include="..\TelegramBot\TelegramBot.csproj" />
     <ProjectReference Include="..\VkBot\VkBot.csproj" />

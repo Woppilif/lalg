@@ -24,18 +24,17 @@ namespace NotificationService
             return url.Replace("<url>", url);
         }
 
-        public void AutoSend( IClient client, string patternName)
+        public async void AutoSend( IClient client, string patternName)
         {
             Thread.Sleep(milisec);
             using (var db = new Connect(client.ConnectionString).DBConnection())
             {
-                var users = db.Users.Where(s => s.Platform == 1 && s.Group.Name == patternName/*????????????? Это так??????????*/);
+                var users = db.Users.Where(s => s.Platform == 1 && s.Group.Name == patternName/*????????????? Это так??????????*/).ToList();
                 var message = db.PatternMessages.Where(s => s.AtTime >= DateTime.Now && patternName == s.Pattern.Name).Select(s => s.Message).First();
                 var new_mess = ChangeURL(message);
                 foreach (var item in users)
                 {
                     client.SendTextMessage(item.UserId, new_mess);
-
                 }
             }
         }
