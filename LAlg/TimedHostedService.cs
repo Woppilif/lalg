@@ -22,6 +22,7 @@ namespace LAlg
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
+            //Thread.Sleep(600);
             aa.Start();
 
             Console.WriteLine("Timed Hosted Service running.");
@@ -34,7 +35,7 @@ namespace LAlg
 
         private void DoWork(object state)
         {
-            aa.Main();
+            //aa.Main();
             //var count = Interlocked.Increment(ref executionCount);
             //Console.WriteLine($"Timed Hosted Service is working. Count: {count}");
             //throw new NotImplementedException();
