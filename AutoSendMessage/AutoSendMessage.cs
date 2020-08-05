@@ -57,89 +57,93 @@ namespace AutoSendMessage
         {
             private List<Lesson> lessonsAll = null;
             private List<PatternMessage> patternMessages = null;
-
+            private List<User> users = null;
             
-
-            //public Message(TelegramClient client, BotVk botVk,
-            //    SchoolBot.Notifications.Notification notification)
-            //{
-            //    _client = client;
-            //    _botVk = botVk;
-            //    _notification = notification;
-            //}
             public void Run()
             {
                 patternMessages = new List<PatternMessage>();
                 lessonsAll = new List<Lesson>();
-                Console.WriteLine($"Notification service started {DateTime.Now.TimeOfDay} 1.1");
+                users = new List<User>();
+                Console.WriteLine($"Check Message in {DateTime.Now.TimeOfDay}");
                 //LoadLessons();
-                patternMessages = LoadMessage();//Почему то не работает
-                //if (DateTime.Now.Second % 5 == 0 && lessonsAll.Count() != CheckCount())
-                //{
-                //    Console.WriteLine($"{lessonsAll.Count()} {CheckCount()}");
-                //    LoadLessons();
-                //    Thread.Sleep(1000);
-                //}
+                //patternMessages = LoadMessage();//Почему то не работает
+                lessonsAll = MyLoadLessons();
 
-
-                //Вот это отправка сообщения определенному пользователю определенное сообщение
-                _client.SendTextMessage(610212420, "Ты добрадся до AutoSend");
-
-
-
-                foreach (var msg in patternMessages)
+                foreach (var lesson in lessonsAll)
                 {
-                    var now = DateTime.Now.TimeOfDay;
-                    if (/*now >= msg.AtTime.TimeOfDay &&*/ msg.Status == false)
+                    var db = new Connect(_client.ConnectionString).DBConnection();
+                    patternMessages = LoadMessage(lesson.PatternId);
+                    //users = MyLoadUser(lesson.GroupId);
+                    foreach (var item in patternMessages)
                     {
-                        var lesson = lessonsAll.Where(les => les.PatternId == msg.PatternId).FirstOrDefault();
-                        if (lesson == null)
-                        {
-                            continue;
-                        }
-                        string link = $"https://langalgorithm.ru/api/LinkSpyers/{lesson.LessonId}/<UserId>";
-                        var message = msg.MakeMessage(link, lesson.LessonAt);
-                        //new Sender().Send(message, lesson.Group);
-                        SendMessage(message, lesson.GroupId);
-                        msg.Status = true;
+                        SendMessage(item.Message, lesson.GroupId);
+                        item.Status = false;
+                        db.PatternMessages.Update(item);
                     }
+                    db.SaveChanges();
                 }
 
+                //Вот это отправка сообщения определенному пользователю определенное сообщение
+                //_client.SendTextMessage(610212420, "Ты добрадся до AutoSend");
+
+                //foreach (var msg in patternMessages)
+                //{
+                //    var now = DateTime.Now.TimeOfDay;
+                //    if (/*now >= msg.AtTime.TimeOfDay &&*/ msg.Status == false)
+                //    {
+                //        var lesson = lessonsAll.Where(les => les.PatternId == msg.PatternId).FirstOrDefault();
+                //        if (lesson == null)
+                //        {
+                //            continue;
+                //        }
+                //        string link = $"https://langalgorithm.ru/api/LinkSpyers/{lesson.LessonId}/<UserId>";
+                //        var message = msg.MakeMessage(link, lesson.LessonAt);
+                //        //new Sender().Send(message, lesson.Group);
+                //        SendMessage(message, lesson.GroupId);
+                //        msg.Status = true;
+                //    }
+                //}
+
+            }
+            private List<User> LoadUser(Guid groupid)
+            {
+                
+                //throw new NotImplementedException();
+                using (var db = new Connect(_client.ConnectionString).DBConnection())
+                {
+                    return db.Users.Where(s => s.GroupId == groupid &&
+                    s.Registered == true &&
+                    s.IsTeacher == false).ToList();
+                }
+               
+            }
+            private List<PatternMessage> LoadMessage(Guid patternId)
+            {
+                using (var db = new Connect(_client.ConnectionString).DBConnection())
+                {
+                    return db.PatternMessages.Where(s => s.PatternId == patternId &&
+                    s.AtTime <= DateTime.Now &&
+                    s.Status == true).ToList();
+                }
+            }
+            private List<Lesson> MyLoadLessons()
+            {
+                using (var db = new Connect(_client.ConnectionString).DBConnection())
+                {
+                    return db.Lessons.Where(s => s.Status == true &&
+                    (s.LessonAt >= DateTime.Now || (s.IsRepeats ==true && s.LessonAt.DayOfWeek == DateTime.Now.DayOfWeek))).ToList();
+                }
             }
 
             private void SendMessage(string message, Guid group)
             {
-                //throw new NotImplementedException();
                 _notification._client = _client;
                 _notification.Send(message, group);
 
                 _notification._client = _botVk;
                 _notification.Send(message, group);
                 Console.WriteLine("Sending messages");
-            }
-            public List<User> LoadUser(int platform, Guid group)//Загрузка юзеров по платформе и группе
-            {
-                //throw new NotImplementedException();
-                using (var db = new Connect(_client.ConnectionString).DBConnection())
-                {
-                    return db.Users.Where(s => s.GroupId == group &&
-                    s.Platform == platform &&
-                    s.Registered == true).ToList();
-                }
-            }
-            public List<PatternMessage> LoadMessage(/*Guid patternid*/)//загрузка Сообщений
-            {
-                patternMessages.Clear();
-                //throw new NotImplementedException();
-                using (var db = new Connect(_client.ConnectionString).DBConnection())
-                {
-                    return db.PatternMessages.Where(s => /*s.PatternId == patternid &&*/
-                    s.Status == true &&
-                    s.AtTime >= DateTime.Now &&
-                    s.IsGreeting == false).ToList();
-                }
-            }
-
+            }          
             private void LoadLessons()
             {
                 patternMessages.Clear();
@@ -170,8 +174,6 @@ namespace AutoSendMessage
                 }
                 Console.WriteLine($"{patternMessages.Count} messages to send loaded");
             }
-        }
-
-        
+        }        
     }
 }
