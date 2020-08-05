@@ -12,7 +12,7 @@ namespace LAlg
     {
         private int executionCount = 0;
         private Timer _timer;
-        AutoSendMessage.AutoSendMessage aa = new AutoSendMessage.AutoSendMessage();
+        AutoSendMessage.AutoSendMessage.Message aa = new AutoSendMessage.AutoSendMessage.Message();
 
         public void Dispose()
         {
@@ -22,12 +22,11 @@ namespace LAlg
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            //Thread.Sleep(600);
-            aa.Start();
+            AutoSendMessage.AutoSendMessage.Start();
 
             Console.WriteLine("Timed Hosted Service running.");
-            _timer = new Timer(DoWork, null, TimeSpan.Zero,
-            TimeSpan.FromSeconds(5));
+            _timer = new Timer(DoWork, null, TimeSpan.FromSeconds(10),
+            TimeSpan.FromMinutes(1));
 
             return Task.CompletedTask;
             //throw new NotImplementedException();
@@ -35,9 +34,10 @@ namespace LAlg
 
         private void DoWork(object state)
         {
+            aa.Run();
             //aa.Main();
             //var count = Interlocked.Increment(ref executionCount);
-            //Console.WriteLine($"Timed Hosted Service is working. Count: {count}");
+            Console.WriteLine("Timed Hosted Service is working. Count:");
             //throw new NotImplementedException();
         }
 

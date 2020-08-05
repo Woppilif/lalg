@@ -16,12 +16,14 @@ namespace AutoSendMessage
 {
     public class AutoSendMessage
     {
-        
+        private static SchoolBot.Notifications.Notification _notification = new SchoolBot.Notifications.Notification();     //TODO ????откуда их взять????
+        private static TelegramClient _client;
+        private static BotVk _botVk;
         public static void Main(string[] args)
         {
             
         }
-        public void Start()
+        public static void Start()
         {
             var builder = new ConfigurationBuilder()
                      .SetBasePath(Directory.GetCurrentDirectory())
@@ -42,8 +44,13 @@ namespace AutoSendMessage
                     return botVk;
                 })
                 .AddSingleton<SchoolBot.Notifications.Notification, SchoolBot.Notifications.Notification>()
-                //.AddSingleton<Notifications, Notifications>()
+                //.AddSingleton<Message, Message>()//TODO может это надо добавить?
                 .BuildServiceProvider();
+            //serviceProvider.GetService<Message>().Run();//TODO может это надо добавить? Хотя не работает
+            _client = new TelegramClient(config.GetConnectionString("DefaultConnection")
+                        , config.GetSection("BotsTokens").GetSection("Telegram").Value);
+            _botVk = new BotVk(config.GetConnectionString("DefaultConnection"),
+                        config.GetSection("BotsTokens").GetSection("Vk").Value);
         }
 
         public class Message
@@ -51,26 +58,39 @@ namespace AutoSendMessage
             private List<Lesson> lessonsAll = null;
             private List<PatternMessage> patternMessages = null;
 
-            private SchoolBot.Notifications.Notification _notification;     //TODO ????откуда их взять????
-            private TelegramClient _client;
-            private BotVk _botVk;
+            
+
+            //public Message(TelegramClient client, BotVk botVk,
+            //    SchoolBot.Notifications.Notification notification)
+            //{
+            //    _client = client;
+            //    _botVk = botVk;
+            //    _notification = notification;
+            //}
             public void Run()
             {
                 patternMessages = new List<PatternMessage>();
                 lessonsAll = new List<Lesson>();
                 Console.WriteLine($"Notification service started {DateTime.Now.TimeOfDay} 1.1");
-                LoadLessons();
-
+                //LoadLessons();
+                patternMessages = LoadMessage();//Почему то не работает
                 //if (DateTime.Now.Second % 5 == 0 && lessonsAll.Count() != CheckCount())
                 //{
                 //    Console.WriteLine($"{lessonsAll.Count()} {CheckCount()}");
                 //    LoadLessons();
                 //    Thread.Sleep(1000);
                 //}
+
+
+                //Вот это отправка сообщения определенному пользователю определенное сообщение
+                _client.SendTextMessage(610212420, "Ты добрадся до AutoSend");
+
+
+
                 foreach (var msg in patternMessages)
                 {
                     var now = DateTime.Now.TimeOfDay;
-                    if (now >= msg.AtTime.TimeOfDay && msg.Status == false)
+                    if (/*now >= msg.AtTime.TimeOfDay &&*/ msg.Status == false)
                     {
                         var lesson = lessonsAll.Where(les => les.PatternId == msg.PatternId).FirstOrDefault();
                         if (lesson == null)
@@ -107,14 +127,16 @@ namespace AutoSendMessage
                     s.Registered == true).ToList();
                 }
             }
-            public List<PatternMessage> LoadMessage(Guid patternid)//загрузка Сообщений
+            public List<PatternMessage> LoadMessage(/*Guid patternid*/)//загрузка Сообщений
             {
+                patternMessages.Clear();
                 //throw new NotImplementedException();
                 using (var db = new Connect(_client.ConnectionString).DBConnection())
                 {
-                    return db.PatternMessages.Where(s => s.PatternId == patternid &&
+                    return db.PatternMessages.Where(s => /*s.PatternId == patternid &&*/
                     s.Status == true &&
-                    s.AtTime >= DateTime.Now).ToList();
+                    s.AtTime >= DateTime.Now &&
+                    s.IsGreeting == false).ToList();
                 }
             }
 
