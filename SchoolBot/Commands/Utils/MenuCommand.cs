@@ -44,6 +44,7 @@ namespace SchoolBot.Commands.Utils
                             {
                                 client.Keyboard.AddButton($"[Записаться на {prodType}]", "", type: ButtonType.Standart);
                             }
+                            //client.SendTextMessage(user.UserId, StandartMessages.MenuCmd);
                         }
                         else
                         {
@@ -62,7 +63,8 @@ namespace SchoolBot.Commands.Utils
                     }
                     else
                     {
-                        client.SendTextMessage(user.UserId, StandartMessages.MenuCmd);
+                        //TODO присылается два раза.
+                        client.SendTextMessage(user.UserId, StandartMessages.MenuCmd);                         
                     }
                     
                 }

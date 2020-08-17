@@ -63,47 +63,27 @@ namespace AutoSendMessage
             {
                 patternMessages = new List<PatternMessage>();
                 lessonsAll = new List<Lesson>();
-                users = new List<User>();
+                //users = new List<User>();
                 Console.WriteLine($"Check Message in {DateTime.Now.TimeOfDay}");
-                //LoadLessons();
-                //patternMessages = LoadMessage();//Почему то не работает
-                lessonsAll = MyLoadLessons();
+                lessonsAll = LoadLessons();
 
+                using var db = new Connect(_client.ConnectionString).DBConnection();
                 foreach (var lesson in lessonsAll)
                 {
-                    var db = new Connect(_client.ConnectionString).DBConnection();
                     patternMessages = LoadMessage(lesson.PatternId);
                     //users = MyLoadUser(lesson.GroupId);
                     foreach (var item in patternMessages)
                     {
-                        SendMessage(item.Message, lesson.GroupId);
+                        var mess = item.Message.Replace("<url>", lesson.Url);
+                        mess.Replace("<datetime>", lesson.LessonAt.ToString("H:mm"));
+                        SendMessage(mess, lesson.GroupId);
                         item.Status = false;
                         db.PatternMessages.Update(item);
                     }
                     db.SaveChanges();
                 }
-
                 //Вот это отправка сообщения определенному пользователю определенное сообщение
-                //_client.SendTextMessage(610212420, "Ты добрадся до AutoSend");
-
-                //foreach (var msg in patternMessages)
-                //{
-                //    var now = DateTime.Now.TimeOfDay;
-                //    if (/*now >= msg.AtTime.TimeOfDay &&*/ msg.Status == false)
-                //    {
-                //        var lesson = lessonsAll.Where(les => les.PatternId == msg.PatternId).FirstOrDefault();
-                //        if (lesson == null)
-                //        {
-                //            continue;
-                //        }
-                //        string link = $"https://langalgorithm.ru/api/LinkSpyers/{lesson.LessonId}/<UserId>";
-                //        var message = msg.MakeMessage(link, lesson.LessonAt);
-                //        //new Sender().Send(message, lesson.Group);
-                //        SendMessage(message, lesson.GroupId);
-                //        msg.Status = true;
-                //    }
-                //}
-
+                //_client.SendTextMessage(610212420, "Ты добрадся до AutoSend");               
             }
             private List<User> LoadUser(Guid groupid)
             {
@@ -123,10 +103,11 @@ namespace AutoSendMessage
                 {
                     return db.PatternMessages.Where(s => s.PatternId == patternId &&
                     s.AtTime <= DateTime.Now &&
-                    s.Status == true).ToList();
+                    s.Status == true &&
+                    s.IsGreeting == false).ToList();
                 }
             }
-            private List<Lesson> MyLoadLessons()
+            private List<Lesson> LoadLessons()
             {
                 using (var db = new Connect(_client.ConnectionString).DBConnection())
                 {
@@ -144,36 +125,6 @@ namespace AutoSendMessage
                 _notification.Send(message, group);
                 Console.WriteLine("Sending messages");
             }          
-            private void LoadLessons()
-            {
-                patternMessages.Clear();
-                lessonsAll.Clear();
-                using (var db = new Connect(_client.ConnectionString).DBConnection())
-                {
-                    var lessons = db.Lessons.Where(lesson => lesson.Status == true &&
-                    (lesson.LessonAt.Date >= DateTime.Now.Date || lesson.IsRepeats == true && lesson.LessonAt.DayOfWeek == DateTime.Now.DayOfWeek)).OrderBy(lesson => lesson.LessonAt).ToList();
-                    foreach (var lesson in lessons)
-                    {
-                        lessonsAll.Add(lesson);
-                        var messages = db.PatternMessages.Where(pt => pt.PatternId == lesson.PatternId).ToList();
-                        foreach (var item in messages)
-                        {
-                            if (item.AtTime.TimeOfDay < DateTime.Now.TimeOfDay)
-                            {
-                                item.Status = true;
-                            }
-                            else
-                            {
-                                item.Status = false;
-                            }
-                            Console.WriteLine($"will send  at : {item.AtTime}");
-                            patternMessages.Add(item);
-                        }
-
-                    }
-                }
-                Console.WriteLine($"{patternMessages.Count} messages to send loaded");
-            }
         }        
     }
 }

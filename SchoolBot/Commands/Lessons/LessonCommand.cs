@@ -98,7 +98,7 @@ namespace SchoolBot.Commands.Lessons
                         neededLesson = lessons.Where(l => l.LessonAt > DateTime.Now).FirstOrDefault();
                         if (neededLesson == null)
                         {
-                            client.SendTextMessage(user.UserId, "Произошла ошибка!");
+                            client.SendTextMessage(user.UserId, "Занятие не найдено, запишитесь на пробное занятие");
                             return;
                         }
                         begin = neededLesson.LessonAt;
@@ -114,8 +114,8 @@ namespace SchoolBot.Commands.Lessons
                     {
                         end = lessons.Last().LessonAt;
                     }
-                    prodStr.Clear();
-                    prodStr.Append($"Вы были добавлены в группу!\nБлижайшее занятие состоится {neededLesson.LessonAt}");
+                    prodStr.Clear();                    
+                    prodStr.Append($"Вы были добавлены в группу {neededLesson.Group.GroupType.Name}!\nБлижайшее занятие состоится {neededLesson.LessonAt}. Мы Вам обязательно напомним! :)\n");
                     var subscription = db.Subscriptions.Add(new Subscription { UserId = user.UserId, Begin = begin, End = end, ProductId = prod.ProductId, IsActive = active });
                     db.SaveChanges();
                     EntityEntry<Payment> payment = null;
@@ -136,6 +136,7 @@ namespace SchoolBot.Commands.Lessons
                         prodStr.Append(patternMessage.MakeMessage(link, neededLesson.LessonAt));
                     }
                     client.SendTextMessage(user.UserId, prodStr.ToString());
+                    //TODO Посмотри тут
                     new SchoolBot.Commands.Utils.MenuCommand().Execute(msg, client, user);
                 }
             }

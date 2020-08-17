@@ -42,7 +42,7 @@ namespace SchoolBot.Commands.Student
                         client.SendTextMessage(user.UserId, "Ваша группа не найдена!");
                         return;
                     }
-                    myLessons = db.Lessons.Where(l => l.Group == myGroup && l.Status == true).ToList();
+                    myLessons = db.Lessons.Where(l => l.Group == myGroup && l.Status == true && (l.LessonAt >= DateTime.Now || l.IsRepeats == true)).ToList();
                     foreach (var item in myLessons)
                     {
                         result += $"{item.LessonAt.AddHours(2).ToString("dddd")} в {item.LessonAt.ToString("H:mm")}\n";
