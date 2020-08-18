@@ -9,65 +9,80 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+@using (Html.BeginForm())
+{
+    <p>
+        Поиск: @Html.TextBox("search")
+        <input type="submit" value="search me" />
+    </p>
+}
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                @Html.ActionLink("Название", "Index", new { sortOrder = ViewBag.NameSortParm })
+                <!--@@Html.DisplayNameFor(model => model.Name)-->
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Age)
+                @Html.ActionLink("Age", "Index", new { sortOrder = ViewBag.AgeSortParm })
+                <!--@@Html.DisplayNameFor(model => model.Age)-->
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.GroupType)
+                @Html.ActionLink("GroupType", "Index", new { sortOrder = ViewBag.GroupTypeSortParm })
+                <!--@@Html.DisplayNameFor(model => model.GroupType)-->
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Creator)
+                @Html.ActionLink("Creator", "Index", new { sortOrder = ViewBag.CreatorSortParm })
+                <!--@@Html.DisplayNameFor(model => model.Creator)-->
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Product)
+                @Html.ActionLink("Product", "Index", new { sortOrder = ViewBag.ProductSortParm })
+                <!--@@Html.DisplayNameFor(model => model.Product)-->
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IsClosed)
+                @Html.ActionLink("IsClosed", "Index", new { sortOrder = ViewBag.IsClosedSortParm })
+                <!--@@Html.DisplayNameFor(model => model.IsClosed)-->
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IsCommon)
+                @Html.ActionLink("IsCommon", "Index", new { sortOrder = ViewBag.IsCommonSortParm })
+                <!--@@Html.DisplayNameFor(model => model.IsCommon)-->
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Age.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GroupType.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Creator)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Product.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsClosed)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsCommon)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.GroupId">Редактировать</a> |
-                <a asp-action="Details" asp-route-id="@item.GroupId">Детали</a> |
-                <a asp-action="Delete" asp-route-id="@item.GroupId">Удалить</a> |
-                <a asp-controller="Lessons" asp-action="Index" asp-route-id="@item.GroupId">Занятия</a> |
-                <a asp-controller="Users" asp-action="Index" asp-route-id="@item.GroupId">Ученики</a> |
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Age.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GroupType.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Creator)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Product.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsClosed)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsCommon)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.GroupId">Редактировать</a> |
+                    <a asp-action="Details" asp-route-id="@item.GroupId">Детали</a> |
+                    <a asp-action="Delete" asp-route-id="@item.GroupId">Удалить</a> |
+                    <a asp-controller="Lessons" asp-action="Index" asp-route-id="@item.GroupId">Занятия</a> |
+                    <a asp-controller="Users" asp-action="Index" asp-route-id="@item.GroupId">Ученики</a> |
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

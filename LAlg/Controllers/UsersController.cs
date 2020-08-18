@@ -24,13 +24,88 @@ namespace LAlg.Controllers
         }
 
         // GET: Users
-        public async Task<IActionResult> Index(/*Guid? id*/)
+        public async Task<IActionResult> Index(/*Guid? id*/string sortOrder, string search)
         {
             //if (id == null)
             //{
             //    return NotFound();
             //}
             var botAppContext = _context.Users/*.Where(u => u.GroupId == id)*/.Include(u => u.Age).Include(u => u.Group);
+
+            ViewBag.FirstNameSortParm = String.IsNullOrEmpty(sortOrder) ? "UserName" : "";
+            ViewBag.PhoneSortParm = sortOrder == "Phone" ? "" : "Phone";
+            ViewBag.CreateSortParm = sortOrder == "CreatedAt" ? "" : "CreatedAt";
+            //ViewBag.GroupSortParm = sortOrder == "Group" ? "" : "Group";//почему то null выдает
+            ViewBag.PlatformSortParam = sortOrder == "Platform" ? "" : "Platform";
+            ViewBag.LastNameSortParm = sortOrder == "LastName" ? "" : "LastName";
+            ViewBag.RegSortParm = sortOrder == "Reg" ? "" : "Reg";
+            ViewBag.AgeSortParm = sortOrder == "Age" ? "" : "Age";
+            ViewBag.IsAdminSortParm = sortOrder == "IsAdmin" ? "" : "IsAdmin";
+            ViewBag.IsTeacherSortParm = sortOrder == "IsTeacher" ? "" : "IsTeacher";
+            ViewBag.BalanceSortParm = sortOrder == "Balance" ? "" : "Balance";
+
+            //IQueryable<User> user;
+
+            var user = from s in botAppContext
+                       select s;
+
+            //IQueryable<User> searchAnswer = null;
+            if (!String.IsNullOrEmpty(search))
+            {
+                user = user.Where(s => s.Firstname.ToUpper().Contains(search.ToUpper())
+                                 || s.Group.Name.ToUpper().Contains(search.ToUpper())
+                                 || s.Lastname.ToUpper().Contains(search.ToUpper())
+                                 || s.Phone.Contains(search)
+                                 || s.Age.Name.ToUpper().Contains(search.ToUpper())
+                                 || s.CreatedAt.ToString().Contains(search));//почему то не ищит строку
+
+                return View(user.ToList());
+            }
+
+            switch (sortOrder)
+            {
+                case "UserName":
+                    //user = user.ToList().OrderBy(s => s.Firstname);
+                    //user = 
+                    //var user = botAppContext.ToList().OrderBy(s => s.Firstname);//.OrderBy(s => s.Firstname);
+                    return View(user.ToList().OrderBy(s => s.Firstname));
+
+                case "Phone":
+                    //user = botAppContext.ToList().OrderBy(s => s.Phone);
+                    return View(user.ToList().OrderBy(s => s.Phone));
+
+                case "CreatedAt":
+                    //user = botAppContext.ToList().OrderBy(s => s.CreatedAt);
+                    return View(user.ToList().OrderBy(s => s.CreatedAt));
+
+                case "Group":
+                    //user = botAppContext.ToList().OrderBy(s => s.Group.Name);
+                    return View(user.ToList().OrderBy(s => s.Group.Name));
+
+                case "Platform":
+                    //user = botAppContext.ToList().OrderBy(s => s.Group.Name);
+                    return View(user.ToList().OrderBy(s => s.Platform));
+
+                case "LastName":
+                    //user = botAppContext.ToList().OrderBy(s => s.Lastname);
+                    return View(user.ToList().OrderBy(s => s.Lastname));
+                case "Reg":
+                    //user = botAppContext.ToList().OrderBy(s => s.Registered);
+                    return View(user.ToList().OrderBy(s => s.Registered));
+                case "Age":
+                    //user = botAppContext.ToList().OrderBy(s => s.AgeId);//не уверен по чему надо сортировать
+                    return View(user.ToList().OrderBy(s => s.AgeId));
+                case "IsAdmin":
+                    //user = botAppContext.ToList().OrderBy(s => s.IsAdmin);
+                    return View(user.ToList().OrderBy(s => s.IsAdmin));
+                case "IsTeacher":
+                    //user = botAppContext.ToList().OrderBy(s => s.IsTeacher);
+                    return View(user.ToList().OrderBy(s => s.IsTeacher));
+                case "Balance":
+                    //user = botAppContext.ToList().OrderBy(s => s.Balance);
+                    return View(user.ToList().OrderBy(s => s.Balance));
+            }
+
             return View(await botAppContext.ToListAsync());
         }
 

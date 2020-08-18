@@ -4,56 +4,69 @@
     ViewData["Title"] = "Сообщения паттернов";
 }
 
-    <h1>Сообщения паттернов</h1>
+<h1>Сообщения паттернов</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+@using (Html.BeginForm())
+{
+    <p>
+        Поиск: @Html.TextBox("search")
+        <input type="submit" value="search me" />
+    </p>
+}
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Pattern)
+                @Html.ActionLink("Pattern", "Index", new { sortOrder = ViewBag.PatternSortParm })
+                <!--@@Html.DisplayNameFor(model => model.Pattern)-->
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IsGreeting)
+                @Html.ActionLink("IsGreeting", "Index", new { sortOrder = ViewBag.IsGreetingSortParm })
+                <!--@@Html.DisplayNameFor(model => model.IsGreeting)-->
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Message)
+                @Html.ActionLink("Message", "Index", new { sortOrder = ViewBag.MessageSortParm })
+                <!--@@Html.DisplayNameFor(model => model.Message)-->
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AtTime)
+                @Html.ActionLink("AtTime", "Index", new { sortOrder = ViewBag.AtTimeSortParm })
+                <!--@@Html.DisplayNameFor(model => model.AtTime)-->
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Status)
+                @Html.ActionLink("Status", "Index", new { sortOrder = ViewBag.StatusSortParm })
+                <!--@@Html.DisplayNameFor(model => model.Status)-->
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Pattern.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsGreeting)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Message)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AtTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.PatternMessageId">Редактировать</a> |
-                <a asp-action="Details" asp-route-id="@item.PatternMessageId">Детали</a> |
-                <a asp-action="Delete" asp-route-id="@item.PatternMessageId">Удалить</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Pattern.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsGreeting)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Message)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AtTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.PatternMessageId">Редактировать</a> |
+                    <a asp-action="Details" asp-route-id="@item.PatternMessageId">Детали</a> |
+                    <a asp-action="Delete" asp-route-id="@item.PatternMessageId">Удалить</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

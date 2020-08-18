@@ -10,32 +10,45 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+@using (Html.BeginForm())
+{
+    <p>
+        Поиск: @Html.TextBox("search")
+        <input type="submit" value="search me" />
+    </p>
+}
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Users)
+                @Html.ActionLink("Имя", "Index", new { sortOrder = ViewBag.FirstNameSortParm })
+                <!--@@Html.DisplayNameFor(model => model.Users)-->
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Code)
+                @Html.ActionLink("Code", "Index", new { sortOrder = ViewBag.CodeSortParm })
+                <!--@@Html.DisplayNameFor(model => model.Code)-->
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IsActive)
+                @Html.ActionLink("IsActive", "Index", new { sortOrder = ViewBag.IsActiveSortParm })
+                <!--@@Html.DisplayNameFor(model => model.IsActive)-->
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IsCommon)
+                @Html.ActionLink("IsCommon", "Index", new { sortOrder = ViewBag.IsCommonSortParm })
+                <!--@@Html.DisplayNameFor(model => model.IsCommon)-->
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Amount)
+                @Html.ActionLink("Amount", "Index", new { sortOrder = ViewBag.AmountSortParm })
+                <!--@@Html.DisplayNameFor(model => model.Amount)-->
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @{/*
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @{/*
 string fullname;
 if (String.IsNullOrEmpty(item.Users.Lastname) && String.IsNullOrEmpty(item.Users.Firstname))
 {
@@ -44,26 +57,26 @@ fullname = item.Users.Firstname + " " + item.Users.Lastname;
 else fullname = item.Users.UserId.ToString();
 */}
 
-                @Html.DisplayFor(modelItem => item.Users.UserId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Code)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsActive)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsCommon)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Amount)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ReferalId">Редактировать</a> |
-                <a asp-action="Details" asp-route-id="@item.ReferalId">Детали</a> |
-                <a asp-action="Delete" asp-route-id="@item.ReferalId">Удалить</a>
-            </td>
-        </tr>
-}
+                    @Html.DisplayFor(modelItem => item.Users.UserId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Code)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsActive)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsCommon)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Amount)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ReferalId">Редактировать</a> |
+                    <a asp-action="Details" asp-route-id="@item.ReferalId">Детали</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ReferalId">Удалить</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
