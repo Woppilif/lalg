@@ -75,7 +75,7 @@ namespace AutoSendMessage
                     foreach (var item in patternMessages)
                     {
                         var mess = item.Message.Replace("<url>", lesson.Url);
-                        mess.Replace("<datetime>", lesson.LessonAt.ToString("H:mm"));
+                        mess.Replace("<datetime>", lesson.LessonAt.ToString("MM/dd/yyyy H:mm"));
                         SendMessage(mess, lesson.GroupId);
                         item.Status = false;
                         db.PatternMessages.Update(item);
